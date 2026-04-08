@@ -1,0 +1,705 @@
+:root {
+    --primary: #ffffff;
+    --bg-main: #050505; 
+    --text-main: #ffffff; 
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* 1. Move the black background to the absolute bottom layer (html) */
+html {
+    background-color: var(--bg-main);
+    min-height: 100vh; /* Forces the foundation to fill the screen */
+}
+
+/* 2. Make the body transparent so the 3D canvas can shine through */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: transparent; 
+    color: var(--text-main);
+    overflow-x: hidden;
+    min-height: 100vh; /* Forces the background image to stretch to the bottom */
+}
+#canvas-container {
+    position: fixed;
+    top: 0; 
+    left: 0;
+    width: 100vw; 
+    height: 100vh;
+    z-index: 0;  
+    pointer-events: none; 
+}
+
+.navbar {
+    position: fixed;
+    top: 0; 
+    width: 100%;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    padding: 15px 5%;
+    
+    /* APPLE GLASS EFFECT */
+    background: rgba(255, 255, 255, 0.15); 
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.brand-logo { height: 42px; width: auto; object-fit: contain; filter: invert(1); }
+.nav-links { display: flex; gap: 30px; align-items: center; }
+.nav-links a { text-decoration: none; color: #fff; font-weight: 600; font-size: 0.85rem; }
+.btn-login { background: #fff; color: #111; border: none; padding: 10px 18px; border-radius: 4px; cursor: pointer; font-weight: 700;}
+
+/* Menu Buttons - Hidden on Desktop */
+.mobile-menu-btn { display: none; font-size: 2rem; color: #fff; cursor: pointer; }
+.close-menu-btn { display: none; }
+
+/* 3D Section */
+.mesh-section {
+    background-color: #050505; /* لون أسود داكن جداً يبرز المجسم الأبيض */
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    cursor: grab; /* يغير شكل الماوس ليد تدل على إمكانية السحب */
+}
+
+#canvas-container {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+}
+
+.corner-text { position: absolute; z-index: 2; max-width: 280px; padding: 20px; }
+.corner-text h3 { font-size: 1.1rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; color: #fff; }
+.corner-text p { font-size: 0.9rem; color: #aaa; line-height: 1.5; }
+
+.top-left { top: 120px; left: 5%; }
+.top-right { top: 120px; right: 5%; text-align: right; }
+.top-right h3 { justify-content: flex-end; }
+.bottom-left { bottom: 50px; left: 5%; }
+.bottom-right { bottom: 50px; right: 5%; text-align: right; }
+.bottom-right h3 { justify-content: flex-end; }
+
+/* Carousel */
+.carousel-wrapper {
+    position: relative;
+    width: 100%; height: 100vh;
+    background-color: transparent; /* Allows the main black background to show through */
+    display: flex; justify-content: center; align-items: center;
+    overflow: hidden;
+}
+.carousel-card {
+    position: absolute;
+    width: 90%; max-width: 1100px;
+    height: 75vh; border-radius: 24px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+    display: flex; align-items: center;
+    padding: 0 5%;
+    z-index: 10;
+}
+
+.carousel-card:nth-child(1) { z-index: 11; }
+.carousel-card:nth-child(2) { z-index: 12; }
+.carousel-card:nth-child(3) { z-index: 13; }
+.carousel-card:nth-child(4) { z-index: 14; }
+
+.stage-label { color: var(--primary); font-weight: 800; letter-spacing: 2px; margin-bottom: 10px; font-size: 0.75rem; }
+.fp-content { display: flex; width: 100%; align-items: center; gap: 40px; }
+.text-column { width: 45%; }
+.text-column h2 { font-size: 3rem; font-weight: 800; margin-bottom: 15px; }
+.visual-column { width: 55%; height: 50vh; }
+.service-img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+
+/* Footer */
+footer { 
+    background: #050505; 
+    color: white; 
+    padding: 80px 5% 40px; 
+    position: relative;
+    z-index: 20; 
+}
+.footer-content { display: flex; justify-content: space-between; padding-bottom: 40px; border-bottom: 1px solid #222; }
+.brand-info { width: 50%; }
+.brand-info h2 { font-size: 2rem; letter-spacing: 2px; margin-bottom: 10px; color: white; }
+.brand-info p { color: #aaa; font-size: 0.95rem; line-height: 1.6; }
+.footer-contact { text-align: right; }
+.footer-contact h4 { font-size: 1.2rem; margin-bottom: 10px; color: white;}
+.footer-contact p { color: #aaa; }
+.footer-bottom { padding-top: 20px; font-size: 0.8rem; color: #666; text-align: center; }
+
+/* --- MOBILE LAYOUT --- */
+@media (max-width: 768px) {
+    /* Navbar Slide Menu */
+    .mobile-menu-btn { display: block; }
+    
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%; /* Hidden off screen */
+        width: 75%;
+        max-width: 320px;
+        height: 100vh;
+        background: rgba(10, 10, 10, 0.98); 
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: center;
+        gap: 40px;
+        transition: right 0.4s ease-in-out;
+        z-index: 2000;
+        box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+    }
+
+    .nav-links.active {
+        right: 0; /* Slides in */
+    }
+
+    .nav-links a { font-size: 1.2rem; }
+    
+    .close-menu-btn {
+        display: block;
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        font-size: 2rem;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    /* Rest of Mobile Layout */
+    .corner-text { display: none !important; }
+    .mesh-section { height: 100vh !important; position: sticky; top: 0; z-index: 1; }
+    #canvas-container { pointer-events: none; }
+    .carousel-wrapper { z-index: 10; background: transparent !important; }
+    .carousel-card { height: 85vh !important; width: 100% !important; border-radius: 30px 30px 0 0 !important; flex-direction: column !important; padding: 40px 20px !important; top: 15vh !important; }
+    .fp-content { flex-direction: column !important; text-align: center; }
+    .text-column, .visual-column { width: 100% !important; }
+    .text-column h2 { font-size: 1.8rem !important; }
+    .text-column p { color: #444; } 
+    .carousel-card:nth-child(4) .text-column p { color: #ccc; } 
+    .visual-column { height: 35vh !important; margin-top: 20px; }
+    
+    footer { padding: 60px 20px 30px; }
+    .footer-content { flex-direction: column; text-align: center; gap: 40px; }
+    .brand-info, .footer-contact { width: 100%; text-align: center; }
+}
+
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 3000; align-items: center; justify-content: center; }
+.modal-content { background: white; padding: 40px; border-radius: 12px; width: 320px; text-align: center; }
+.modal-content input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; color: #111; }
+.modal-content h2 { color: #111; }
+.btn-orange { background: var(--primary); color: white; border: none; padding: 12px; width: 100%; font-weight: 700; cursor: pointer; }
+
+/* =========================================
+   NEW PAGES: ADMIN DASHBOARD & BLOG STYLES 
+   ========================================= */
+
+/* --- Admin Dashboard (WordPress Style) --- */
+.admin-body { 
+    display: flex; 
+    background-color: #f0f0f1; /* Classic WP Gray */
+    color: #3c434a; 
+    margin: 0; 
+}
+.admin-sidebar { 
+    width: 260px; 
+    background-color: #1d2327; /* Dark WP Sidebar */
+    min-height: 100vh; 
+    color: white; 
+    padding: 30px 20px; 
+}
+.admin-sidebar h2 { font-size: 1.2rem; margin-bottom: 40px; letter-spacing: 1px; }
+.admin-sidebar ul { list-style: none; padding: 0; }
+.admin-sidebar ul li a { 
+    color: #c3c4c7; 
+    text-decoration: none; 
+    display: block; 
+    padding: 12px 15px; 
+    margin-bottom: 5px; 
+    border-radius: 4px;
+    font-weight: 600;
+}
+.admin-sidebar ul li a:hover, .admin-sidebar ul li a.active { 
+    background-color: #2c3338; 
+    color: #fff; 
+    border-left: 4px solid var(--primary);
+}
+
+.admin-content { flex: 1; padding: 40px; }
+.admin-content h1 { font-size: 2rem; margin-bottom: 30px; font-weight: 400; }
+.admin-card { 
+    background: white; 
+    padding: 30px; 
+    border: 1px solid #ccd0d4; 
+    margin-bottom: 25px; 
+    border-radius: 4px; 
+    box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+}
+.admin-card h3 { margin-bottom: 20px; font-size: 1.2rem; }
+.admin-card input, .admin-card textarea { 
+    width: 100%; 
+    padding: 15px; 
+    margin-bottom: 20px; 
+    border: 1px solid #8c8f94; 
+    border-radius: 4px;
+    font-family: inherit;
+}
+.admin-card .post-item {
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+}
+.admin-card .post-item:last-child { border-bottom: none; }
+
+/* --- Blog Page (Achievement) --- */
+.page-container { 
+    max-width: 1000px; 
+    margin: 0 auto; 
+    padding: 140px 5% 80px; 
+}
+.page-title { font-size: 3rem; margin-bottom: 10px; }
+.page-subtitle { color: #888; font-size: 1.2rem; margin-bottom: 50px; }
+
+.blog-grid { display: flex; flex-direction: column; gap: 30px; }
+.blog-post {
+    padding: 30px; 
+    border-radius: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    /* APPLE GLASS EFFECT */
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(30px) !important;
+    -webkit-backdrop-filter: blur(30px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+}
+.blog-post h2 { color: var(--primary); font-size: 2rem; margin-bottom: 10px; }
+.blog-post small { color: #666; font-size: 0.9rem; display: block; margin-bottom: 20px; }
+.blog-post p { color: #ccc; line-height: 1.7; font-size: 1.05rem; white-space: pre-wrap; }
+
+/* Dashboard Mobile Fix */
+@media (max-width: 768px) {
+    .admin-body { flex-direction: column; }
+    .admin-sidebar { width: 100%; height: auto; min-height: auto; }
+    .admin-content { padding: 20px; }
+}
+/* --- Blog Image Styles --- */
+.blog-post-img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.admin-post-img-thumb {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-right: 15px;
+    border: 1px solid #ddd;
+}
+
+.post-item-flex {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+.post-item-flex:last-child { border-bottom: none; }
+
+/* --- Single Article & Editor Styles --- */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: 30px;
+    font-size: 1rem;
+}
+.back-link:hover { text-decoration: underline; }
+
+.article-header-img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 30px;
+}
+
+.article-date { color: #888; margin-bottom: 20px; display: block; }
+
+/* Styles for the rich text generated by Quill */
+.rich-text-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #ccc; /* Light text for dark mode */
+}
+.rich-text-content img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+.rich-text-content h1, .rich-text-content h2, .rich-text-content h3 {
+    color: white;
+    margin: 30px 0 15px;
+}
+
+/* Fix for Admin Quill Editor text color so admin can read what they type */
+#editor-container .ql-editor { color: #111; font-size: 1.1rem; }
+
+/* =========================================
+   MODERN GRID & SINGLE ARTICLE STYLES
+   ========================================= */
+
+/* --- The Modern Grid View --- */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.blog-post {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 16px;
+    overflow: hidden; /* Keeps images inside the border radius */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Hover Effect for Grid Cards */
+.blog-post:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(255, 92, 0, 0.15); /* Orange glow on hover */
+    border-color: #333;
+}
+
+.blog-post-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+    border-bottom: 1px solid #222;
+}
+
+.blog-post-content {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.blog-post-content h2 { font-size: 1.5rem; margin-bottom: 10px; line-height: 1.3; }
+.blog-post-content p { font-size: 0.95rem; margin-bottom: 20px; flex-grow: 1; color: #aaa; }
+
+/* --- Single Article View (With Orange Borderline) --- */
+#single-article-container {
+    background: #0a0a0a;
+    padding: 50px;
+    border-radius: 16px;
+    border-top: 5px solid var(--primary); /* THE ORANGE BORDERLINE */
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    margin-top: 20px;
+}
+
+/* --- Admin Edit/Delete Buttons --- */
+.admin-actions { margin-top: 10px; }
+.admin-action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin-right: 15px;
+    font-weight: 600;
+    transition: opacity 0.2s;
+}
+.admin-action-btn:hover { opacity: 0.7; }
+.btn-edit { color: #0073aa; } /* Blue for Edit */
+.btn-delete { color: #d63638; } /* Red for Delete */
+
+@media (max-width: 768px) {
+    #single-article-container { padding: 30px 20px; }
+}
+/* =========================================
+   INFINITE SCROLLING MARQUEE
+   ========================================= */
+
+.marquee-container {
+    width: 100%;
+    overflow: hidden;
+    background: #111; /* Dark background to match the grid */
+    padding: 40px 0;
+    border-radius: 16px;
+    margin-bottom: 50px;
+    white-space: nowrap;
+    position: relative;
+    border: 1px solid #222;
+}
+
+/* Fading edges so photos smoothly appear/disappear */
+.marquee-container::before, .marquee-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 150px;
+    height: 100%;
+    z-index: 2;
+}
+.marquee-container::before { left: 0; background: linear-gradient(to right, #111 0%, transparent 100%); }
+.marquee-container::after { right: 0; background: linear-gradient(to left, #111 0%, transparent 100%); }
+
+.marquee-content {
+    display: inline-flex;
+    gap: 60px;
+    align-items: center;
+    padding-left: 60px; /* Offset gap */
+    animation: scrollMarquee 25s linear infinite;
+}
+
+/* Pause the scrolling when the user hovers over it */
+.marquee-content:hover { animation-play-state: paused; }
+
+.marquee-img {
+    height: 70px; 
+    max-width: 200px;
+    object-fit: contain;
+    /* Makes logos white/gray. Remove this filter if you want full color! */
+    filter: grayscale(100%) brightness(150%);
+    transition: filter 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+.marquee-img:hover {
+    filter: grayscale(0%) brightness(100%);
+    transform: scale(1.1);
+}
+
+@keyframes scrollMarquee {
+    0% { transform: translateX(0); }
+    /* Shifts exactly 50% left to create the seamless looping illusion */
+    100% { transform: translateX(-50%); } 
+}
+
+/* --- Admin Thumbnail Styles --- */
+.admin-marquee-thumb {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.admin-marquee-thumb img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
+.admin-marquee-delete-btn {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #d63638;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: bold;
+}
+/* =========================================
+   TEAM, CONTACT, ABOUT & DYNAMIC CARDS
+   ========================================= */
+
+/* --- ADMIN TABS --- */
+.admin-tab { animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.admin-list-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #eee; }
+
+/* --- THE MASTER APPLE GLASS FORMULA --- */
+/* This applies the bright white frosted glass to EVERY card on the website automatically */
+.team-member, .blog-post, .contact-card, .contact-form-container, 
+.carousel-card, .marquee-container, #public-about-content, #single-article-container {
+    padding: 30px; 
+    border-radius: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    
+    /* 1. INCREASED ALPHA: Changed from 0.15 to 0.25 for a whiter milky look */
+    background: rgba(255, 255, 255, 0.25) !important;
+    
+    /* 2. INCREASED BLUR: Changed from 30px to 40px for heavier liquid distortion */
+    backdrop-filter: blur(40px) !important;
+    -webkit-backdrop-filter: blur(40px) !important;
+    
+    /* 3. STRONGER BORDER: Changed from 0.3 to 0.5 to catch the light like thick glass */
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Elegant Hover states for interactive glass cards */
+.team-member:hover, .blog-post:hover, .contact-card:hover { 
+    transform: translateY(-8px); 
+    border-color: rgba(255, 92, 0, 0.5) !important; /* Orange glow on hover */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Specific Accent Borders */
+#public-about-content { border-left: 5px solid var(--primary) !important; }
+#single-article-container { border-top: 5px solid var(--primary) !important; }
+
+/* --- TEAM GRID --- */
+.team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 40px; margin-top: 40px; }
+.team-photo { width: 150px; height: 150px; object-fit: cover; border-radius: 50%; margin-bottom: 20px; border: 3px solid rgba(255, 255, 255, 0.5); }
+.team-member h3 { color: white; font-size: 1.3rem; margin-bottom: 5px; }
+.team-member p { color: var(--primary); font-weight: 600; font-size: 0.9rem; }
+
+/* --- CONTACT LAYOUT --- */
+.contact-layout, .contact-container { display: flex; flex-wrap: wrap; gap: 40px; margin-top: 40px; align-items: flex-start; }
+.contact-list-wrapper { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 20px; }
+.contact-form-container, .contact-card { flex: 1; min-width: 300px; margin-bottom: 20px; }
+
+.contact-card h3 { color: var(--primary); font-size: 1.2rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+.contact-form-container h3 { color: white; margin-bottom: 25px; font-size: 1.5rem; }
+
+.contact-item { color: #ccc; font-size: 1.1rem; margin-bottom: 15px; display: block; text-decoration: none; transition: 0.2s; }
+.contact-item:hover { color: white; }
+
+/* Light Inputs for White Glass (replaces the muddy black boxes) */
+.contact-form-container input, .contact-form-container textarea {
+    width: 100%; padding: 15px; margin-bottom: 15px;
+    background: rgba(255, 255, 255, 0.1); 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    color: white; border-radius: 8px;
+    font-family: 'Inter', sans-serif; outline: none;
+}
+.contact-form-container input:focus, .contact-form-container textarea:focus {
+    border-color: var(--primary); background: rgba(255, 255, 255, 0.15);
+}
+
+/* --- THEME BACKGROUND FADES --- */
+/* --- THEME BACKGROUND FADES --- */
+body.frosted-theme { 
+    background-color: #050505; 
+    background-size: cover; 
+    background-position: center; 
+    background-attachment: fixed; /* Locks the image to the screen so it doesn't cut off */
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    transition: background-image 0.5s ease-in-out; 
+}
+body.frosted-theme::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: -1; }
+
+.marquee-container::before { background: linear-gradient(to right, rgba(10, 10, 12, 0.8) 0%, transparent 100%) !important; }
+.marquee-container::after { background: linear-gradient(to left, rgba(10, 10, 12, 0.8) 0%, transparent 100%) !important; }
+.carousel-card .text-column h2, .carousel-card .text-column p { color: #ffffff !important; }
+
+/* =========================================
+   PRELOADER
+   ========================================= */
+#preloader {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #050505; z-index: 99999;
+    display: flex; justify-content: center; align-items: center;
+    transition: opacity 0.5s ease, visibility 0.5s;
+}
+.preloader-logo { height: 60px; filter: invert(1); animation: pulseLogo 1.5s infinite; }
+@keyframes pulseLogo { 0%, 100% { transform: scale(0.9); opacity: 0.5; } 50% { transform: scale(1.1); opacity: 1; } }
+
+/* =========================================
+   VIDEO AS A FLOATING 3D MODEL
+   ========================================= */
+#video-bg {
+    position: absolute; /* Changed from fixed so it scrolls away normally */
+    top: 50vh; /* Keeps it perfectly centered in the very first screen area */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    width: 600px; 
+    max-width: 90vw; /* Ensures it doesn't break mobile phone screens */
+    height: auto;
+    
+    z-index: 9999; 
+    mix-blend-mode: screen; 
+    pointer-events: none; 
+    opacity: 0.9; 
+}/* خصائص قسم الـ 3D */
+.mesh-section {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#canvas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* ليكون خلف النصوص */
+    pointer-events: auto; /* للسماح بتحريك المجسم بالماوس */
+}
+
+/* تأكدي أن النصوص فوق المجسم */
+.corner-text {
+    position: absolute;
+    z-index: 10;
+    /* باقي تنسيقاتك للنصوص تبقى كما هي */
+}
+
+/* =========================================
+   OVERRIDE: SOLID WHITE HOME PAGE STAGES
+   ========================================= */
+.carousel-card {
+    /* 1. Remove the glass blur and transparency */
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    
+    /* 2. Remove the thick glass border and add a soft shadow for depth */
+    border: none !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important; 
+}
+
+/* 3. Invert the text color so it is readable on the white background */
+.carousel-card .text-column h2 { 
+    color: #050505 !important; /* Dark black for the Titles */
+}
+.carousel-card .text-column p { 
+    color: #444444 !important; /* Dark grey for the descriptions */
+}
+
+/* --- LANGUAGE TOGGLE BUTTON --- */
+.btn-lang {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+.btn-lang:hover {
+    background: rgba(255, 92, 0, 0.2);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}

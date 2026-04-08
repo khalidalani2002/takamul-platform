@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | TAKAMUL</title>
+    
+    <meta name="title" content="TAKAMUL | Integrated Marketing & PR">
+    <meta name="description" content="An integrated system creating solutions and building bridges between brands and the public in Iraq and globally.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.takamul.iq/">
+    <meta property="og:title" content="TAKAMUL | Integrated Marketing & PR">
+    <meta property="og:description" content="An integrated system creating solutions and building bridges between brands and the public.">
+    <meta property="og:image" content="logo.png">
+    
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="frosted-theme" data-page="about">
+    
+    <div id="preloader">
+        <img src="logo.png" alt="Takamul Loading" class="preloader-logo">
+    </div>
+
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html"><img src="logo.png" alt="Takamul Logo" class="brand-logo"></a>
+        </div>
+        <div class="mobile-menu-btn" onclick="toggleMenu()"><i class="ph ph-dots-three-vertical"></i></div>
+        <div class="nav-links" id="nav-links">
+            <i class="ph ph-x close-menu-btn" onclick="toggleMenu()"></i>
+            <a href="achievement.html">Achievement</a>
+            <a href="team.html">Team</a>
+            <a href="about.html" style="color: #FF5C00;">About us</a>
+            <a href="contact.html">Contact</a>
+            <button class="btn-lang" onclick="toggleLanguage()">🌐 AR / EN</button>
+            <button class="btn-login" onclick="document.getElementById('login-modal').style.display='flex'; toggleMenu();">Log In</button>
+        </div>
+    </nav>
+
+    <div class="page-container gs-fade-up">
+        <h1 class="page-title">Who We Are</h1>
+        <p class="page-subtitle">A legacy of connection, communication, and growth.</p>
+        
+        <div class="rich-text-content" id="public-about-content">
+            </div>
+    </div>
+
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="document.getElementById('login-modal').style.display='none'">&times;</span>
+            <h2 style="color: #111;">System Login</h2>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button class="btn-orange" onclick="checkLogin()">Access Dashboard</button>
+            <p id="error-msg" style="color: #ff4d4d; display: none; margin-top: 10px;">Access Denied</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
