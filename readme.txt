@@ -1,4 +1,4 @@
-firestore rules(based on firebase):
+firestore rules:
 
 rules_version = '2';
 service cloud.firestore {
@@ -10,6 +10,3 @@ service cloud.firestore {
 }
 
 
-
-admin dashboard: 
-admin-dashboard.html#
