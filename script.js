@@ -429,7 +429,6 @@ async function loadAdminContact() {
 
 async function loadPublicContact() {
     const el = document.getElementById('public-contact-list'); if(!el || !db) return;
-    // Look at the new 'contact' database
     const snap = await getDocs(collection(db, "contact")); 
     let contacts = []; snap.forEach(d => contacts.push({id: d.id, ...d.data()}));
     
@@ -438,15 +437,28 @@ async function loadPublicContact() {
     
     let html = "";
     for (const type in groups) {
-        html += `<div class="contact-card" style="opacity: 1 !important; visibility: visible !important;"><h3>${type}</h3>`;
+        
+        // 1. Assign Phosphor icons to each specific type
+        let icon = "";
+        if (type === "Email") icon = '<i class="ph ph-envelope" style="color:#FF5C00; margin-right:8px; font-size:1.4rem;"></i>';
+        else if (type === "Phone") icon = '<i class="ph ph-phone" style="color:#FF5C00; margin-right:8px; font-size:1.4rem;"></i>';
+        else if (type === "Address" || type === "Address / Location") icon = '<i class="ph ph-map-pin" style="color:#FF5C00; margin-right:8px; font-size:1.4rem;"></i>';
+        else if (type === "LinkedIn") icon = '<i class="ph-fill ph-linkedin-logo" style="color:#FF5C00; margin-right:8px; font-size:1.4rem;"></i>';
+        else if (type === "Facebook") icon = '<i class="ph-fill ph-facebook-logo" style="color:#FF5C00; margin-right:8px; font-size:1.4rem;"></i>';
+        else if (type === "Instagram") icon = '<i class="ph-fill ph-instagram-logo" style="color:#FF5C00; margin-right:8px; font-size:1.4rem;"></i>';
+
+        // 2. Render the Card with the Icon next to the Title
+        html += `<div class="contact-card" style="opacity: 1 !important; visibility: visible !important;">
+                    <h3 style="display:flex; align-items:center; margin-bottom: 10px;">${icon} ${type}</h3>`;
+        
         groups[type].forEach(item => {
-            // Bilingual check
             const value = typeof item.value === 'object' ? item.value[window.currentLang] : item.value;
-            
             let href = item.url; let target = 'target="_blank"';
+            
             if (type === "Email") { href = `mailto:${value}`; target = ""; }
             else if (type === "Phone") { href = `tel:${value.replace(/[^0-9+]/g, '')}`; target = ""; }
-            html += href ? `<a href="${href}" ${target} class="contact-item">${value}</a>` : `<span class="contact-item">${value}</span>`;
+            
+            html += href ? `<a href="${href}" ${target} class="contact-item" style="display:block; margin-bottom:5px;">${value}</a>` : `<span class="contact-item" style="display:block; margin-bottom:5px;">${value}</span>`;
         });
         html += `</div>`;
     }
