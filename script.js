@@ -20,12 +20,12 @@ window.addEventListener('load', hidePreloader);
 // 2. FIREBASE CONFIGURATION
 // ==========================================
 const firebaseConfig = {
-    apiKey: "AIzaSyAwrz0hv3ZPRQdfimQNbneWiSFrS4kY55k",
-    authDomain: "takamul-95d7b.firebaseapp.com",
-    projectId: "takamul-95d7b",
-    storageBucket: "takamul-95d7b.firebasestorage.app",
-    messagingSenderId: "635681370470",
-    appId: "1:635681370470:web:9468d33192af70897358a7"
+    apiKey: "AIzaSyARJd9HdYsH7adjoM09VGAaFMzTeFqx3DM",
+    authDomain: "takamuldb-46923.firebaseapp.com",
+    projectId: "takamuldb-46923",
+    storageBucket: "takamuldb-46923.firebasestorage.app",
+    messagingSenderId: "887057662484",
+    appId: "1:887057662484:web:5680a1fd9d6fe9e15ddd01"
 };
 
 // ADDED: Storage variables ready to be used globally
@@ -118,16 +118,31 @@ function compressImage(file, maxWidth, quality, type = 'image/jpeg') {
 function toggleMenu() { document.getElementById('nav-links')?.classList.toggle('active'); }
 function logout() { window.location.href = "index.html"; }
 
-function checkLogin() {
+// ==========================================
+// SECURE LOGIN SYSTEM (Version 10.8.1 Sync)
+// ==========================================
+window.checkLogin = async () => {
     const u = document.getElementById('username').value;
     const p = document.getElementById('password').value;
-    if (u === "aya" && p === "root1234") {
-        window.location.href = "admin-dashboard.html";
-    } else {
-        document.getElementById('error-msg').style.display = 'block';
-    }
-}
+    const errorMsg = document.getElementById('error-msg');
 
+    try {
+        // Syncing to 10.8.1 to match your main database engine
+        const { initializeApp, getApps, getApp } = await import("https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js");
+        const { getAuth, signInWithEmailAndPassword } = await import("https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js");
+        
+        // Safety check: Create the app if it doesn't exist, otherwise grab the existing one
+        const app = !getApps().length ? initializeApp(firebaseConfig) : getApp(); 
+        const auth = getAuth(app);
+        
+        await signInWithEmailAndPassword(auth, u, p);
+        window.location.href = "admin-dashboard.html";
+    } catch (error) {
+        console.error("Login Failed:", error.message);
+        errorMsg.style.display = "block";
+        errorMsg.innerText = "Invalid credentials. Access Denied.";
+    }
+};
 // ==========================================
 // 6. ADMIN UI & BACKGROUNDS
 // ==========================================
@@ -1324,7 +1339,7 @@ window.saveHomeText = async () => {
     } catch (e) { console.error("Error saving home text:", e); alert("Failed to save."); }
 };
 
-// 2. Load data into Admin Dashboard boxes
+// 2. Load data into Admin Dashboard boxes (Safely)
 window.loadAdminHomeText = async () => {
     if (!document.getElementById('ht-tl-title-en') || typeof db === 'undefined') return;
     try {
@@ -1332,18 +1347,19 @@ window.loadAdminHomeText = async () => {
         if (snap.exists()) {
             const data = snap.data();
             corners.forEach(pos => {
+                // Use Optional Chaining (?.) to prevent crashes on missing data
                 if(data[pos]) {
-                    document.getElementById(`ht-${pos}-title-en`).value = data[pos].title.en || '';
-                    document.getElementById(`ht-${pos}-title-ar`).value = data[pos].title.ar || '';
-                    document.getElementById(`ht-${pos}-desc-en`).value = data[pos].desc.en || '';
-                    document.getElementById(`ht-${pos}-desc-ar`).value = data[pos].desc.ar || '';
+                    document.getElementById(`ht-${pos}-title-en`).value = data[pos]?.title?.en || '';
+                    document.getElementById(`ht-${pos}-title-ar`).value = data[pos]?.title?.ar || '';
+                    document.getElementById(`ht-${pos}-desc-en`).value = data[pos]?.desc?.en || '';
+                    document.getElementById(`ht-${pos}-desc-ar`).value = data[pos]?.desc?.ar || '';
                 }
             });
         }
     } catch (e) { console.error("Error loading admin home text:", e); }
 };
 
-// 3. Load data to the Public Website (with AR/EN toggle support)
+// 3. Load data to the Public Website (Safely)
 window.loadPublicHomeText = async () => {
     if (!document.getElementById('text-tl-title') || typeof db === 'undefined') return;
     try {
@@ -1354,8 +1370,10 @@ window.loadPublicHomeText = async () => {
                 if(data[pos]) {
                     const titleEl = document.getElementById(`text-${pos}-title`);
                     const descEl = document.getElementById(`text-${pos}-desc`);
-                    if(titleEl) titleEl.innerText = data[pos].title[window.currentLang] || data[pos].title.en;
-                    if(descEl) descEl.innerText = data[pos].desc[window.currentLang] || data[pos].desc.en;
+                    
+                    // Safely check currentLang, fallback to English, fallback to empty string
+                    if(titleEl) titleEl.innerText = data[pos]?.title?.[window.currentLang] || data[pos]?.title?.en || '';
+                    if(descEl) descEl.innerText = data[pos]?.desc?.[window.currentLang] || data[pos]?.desc?.en || '';
                 }
             });
         }
