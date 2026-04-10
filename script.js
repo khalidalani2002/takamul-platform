@@ -1391,3 +1391,55 @@ window.loadPublicHomeText = async () => {
         }
     } catch (e) { console.error("Error loading public home text:", e); }
 };
+// ==========================================
+// 13. CONTACT FORM: EMAILJS ENGINE
+// ==========================================
+window.sendEmail = function(event) {
+    event.preventDefault(); // Stop the page from reloading
+
+    const btn = document.getElementById('form-submit-btn');
+    const statusText = document.getElementById('form-status');
+    
+    // 1. Loading State
+    btn.innerText = 'Sending...';
+    btn.style.opacity = '0.7';
+    btn.disabled = true;
+
+    // 2. Package the data from your HTML form
+    const templateParams = {
+        user_name: document.getElementById('user_name').value,
+        user_email: document.getElementById('user_email').value,
+        user_company: document.getElementById('user_company').value || "Not provided",
+        message: document.getElementById('message').value
+    };
+
+    // 3. Fire the email (Replace the 3 keys below in Step 2)
+    // 3. Fire the email
+    emailjs.send('service_u3xnon4v', 'template_fssdi8p', templateParams, 'cwOBgFfsOLTWrv0NU')
+        .then(function(response) {
+            // Success
+            btn.innerText = 'Send Message';
+            btn.style.opacity = '1';
+            btn.disabled = false;
+            
+            statusText.style.display = 'block';
+            statusText.style.color = '#4ade80'; // Green
+            statusText.innerText = 'Message Sent Successfully!';
+            
+            document.getElementById('takamul-form').reset(); // Clear the form
+            
+            // Hide the success message after 5 seconds
+            setTimeout(() => { statusText.style.display = 'none'; }, 5000);
+            
+        }, function(error) {
+            // Failed
+            console.error('Email failed:', error);
+            btn.innerText = 'Send Message';
+            btn.style.opacity = '1';
+            btn.disabled = false;
+            
+            statusText.style.display = 'block';
+            statusText.style.color = '#ff4d4d'; // Red
+            statusText.innerText = 'Failed to send. Please try again.';
+        });
+};
