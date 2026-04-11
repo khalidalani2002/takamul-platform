@@ -1414,7 +1414,7 @@ window.sendEmail = function(event) {
     };
 
     // 3. Fire the email (Replace the 3 keys below in Step 2)
-    emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams, 'YOUR_PUBLIC_KEY')
+    emailjs.send('service_u3xnon4', 'template_fssdi8p', templateParams, 'cwOBgFfsOLTWrv0NU')
         .then(function(response) {
             // Success
             btn.innerText = 'Send Message';
