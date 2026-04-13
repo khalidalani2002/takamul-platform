@@ -35,9 +35,8 @@
             <a href="achievement.html">Achievement</a>
             <a href="team.html">Team</a>
             <a href="about.html">About us</a>
-            <a href="contact.html" style="color: #FF5C00;">Contact</a>
+            <a href="contact.html" style="color: #888;">Contact</a>
             <button class="btn-lang" onclick="toggleLanguage()">🌐 AR / EN</button>
-            <button class="btn-login" onclick="document.getElementById('login-modal').style.display='flex'; toggleMenu();">Log In</button>
         </div>
     </nav>
 
@@ -60,17 +59,6 @@
                     <p id="form-status" style="display:none; margin-top:15px; color:#4ade80; font-weight:600;">Message Sent Successfully!</p>
                 </form>
             </div>
-        </div>
-    </div>
-
-    <div id="login-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="document.getElementById('login-modal').style.display='none'">&times;</span>
-            <h2 style="color: #111;">System Login</h2>
-            <input type="text" id="username" placeholder="Username">
-            <input type="password" id="password" placeholder="Password">
-            <button class="btn-orange" onclick="checkLogin()">Access Dashboard</button>
-            <p id="error-msg" style="color: #ff4d4d; display: none; margin-top: 10px;">Access Denied</p>
         </div>
     </div>
 

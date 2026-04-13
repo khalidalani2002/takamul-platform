@@ -440,12 +440,12 @@ async function loadPublicContact() {
         
         // 1. Assign Phosphor icons to each specific type
         let icon = "";
-        if (type === "Email") icon = '<i class="ph ph-envelope" style="color:#FF5C00; margin-right:8px; font-size:1.4rem;"></i>';
-        else if (type === "Phone") icon = '<i class="ph ph-phone" style="color:#FF5C00; margin-right:8px; font-size:1.4rem;"></i>';
-        else if (type === "Address" || type === "Address / Location") icon = '<i class="ph ph-map-pin" style="color:#FF5C00; margin-right:8px; font-size:1.4rem;"></i>';
-        else if (type === "LinkedIn") icon = '<i class="ph-fill ph-linkedin-logo" style="color:#FF5C00; margin-right:8px; font-size:1.4rem;"></i>';
-        else if (type === "Facebook") icon = '<i class="ph-fill ph-facebook-logo" style="color:#FF5C00; margin-right:8px; font-size:1.4rem;"></i>';
-        else if (type === "Instagram") icon = '<i class="ph-fill ph-instagram-logo" style="color:#FF5C00; margin-right:8px; font-size:1.4rem;"></i>';
+        if (type === "Email") icon = '<i class="ph ph-envelope" style="color:#888; margin-right:8px; font-size:1.4rem;"></i>';
+        else if (type === "Phone") icon = '<i class="ph ph-phone" style="color:#888; margin-right:8px; font-size:1.4rem;"></i>';
+        else if (type === "Address" || type === "Address / Location") icon = '<i class="ph ph-map-pin" style="color:#888; margin-right:8px; font-size:1.4rem;"></i>';
+        else if (type === "LinkedIn") icon = '<i class="ph-fill ph-linkedin-logo" style="color:#888; margin-right:8px; font-size:1.4rem;"></i>';
+        else if (type === "Facebook") icon = '<i class="ph-fill ph-facebook-logo" style="color:#888; margin-right:8px; font-size:1.4rem;"></i>';
+        else if (type === "Instagram") icon = '<i class="ph-fill ph-instagram-logo" style="color:#888; margin-right:8px; font-size:1.4rem;"></i>';
 
         // 2. Render the Card with the Icon next to the Title
         html += `<div class="contact-card" style="opacity: 1 !important; visibility: visible !important;">
@@ -540,10 +540,11 @@ function initThreeJS() {
 
     try {
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const cw = container.clientWidth, ch = container.clientHeight;
+        const camera = new THREE.PerspectiveCamera(60, cw / ch, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        
-        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        renderer.setSize(cw, ch);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         container.appendChild(renderer.domElement);
 
@@ -553,20 +554,20 @@ function initThreeJS() {
         scene.add(mainLight);
 
         const isMobile = window.innerWidth < 768;
-        const sizeVal = isMobile ? "4.0" : "6.1"; 
+        const sizeVal = isMobile ? "4.0" : "6.1";
 
         const geometry = new THREE.TorusGeometry(isMobile ? 3 : 4.5, isMobile ? 1.1 : 1.6, 160, 320);
-        const material = new THREE.MeshPhysicalMaterial({ 
-            color: 0xffffff, metalness: 0.95, roughness: 0.05, clearcoat: 1.0, clearcoatRoughness: 0.02 
+        const material = new THREE.MeshPhysicalMaterial({
+            color: 0xffffff, metalness: 0.95, roughness: 0.05, clearcoat: 1.0, clearcoatRoughness: 0.02
         });
-        
+
         material.onBeforeCompile = (shader) => {
             shader.uniforms.time = { value: 0 };
             shader.vertexShader = `uniform float time; ${shader.vertexShader}`.replace(
                 `#include <begin_vertex>`,
                 `#include <begin_vertex>
                 float t = time * 0.35;
-                vec3 s = normalize(position) * ${sizeVal}; 
+                vec3 s = normalize(position) * ${sizeVal};
                 vec3 tar = mix(position, s, abs(sin(t)));
                 transformed = tar + (normalize(position) * sin(time + position.x * 0.5) * 0.7);`
             );
@@ -575,7 +576,7 @@ function initThreeJS() {
 
         const mesh = new THREE.Mesh(geometry, material);
         scene.add(mesh);
-        camera.position.z = 22;
+        camera.position.z = isMobile ? 28 : 22;
 
         const clock = new THREE.Clock();
         function animate() {
@@ -585,6 +586,13 @@ function initThreeJS() {
             renderer.render(scene, camera);
         }
         animate();
+
+        window.addEventListener('resize', () => {
+            const w = container.clientWidth, h = container.clientHeight;
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h);
+        });
     } catch(e) { console.error("3D Pipeline Error", e); }
 }
 
@@ -691,7 +699,8 @@ if (container) {
     const scene = new THREE.Scene();
     
     const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.set(0, 0, 80); 
+    const isMobileKnot = window.innerWidth < 768;
+    camera.position.set(0, 0, isMobileKnot ? 140 : 80); 
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
@@ -819,6 +828,8 @@ window.toggleLanguage = () => {
     if (document.getElementById('public-team-list')) loadPublicTeam();
     if (document.getElementById('blog-container')) loadPublicPosts();
     if (document.getElementById('public-about-content')) loadPublicAbout();
+    if (typeof loadPublicStageText === 'function') loadPublicStageText();
+    if (typeof loadPublicHomeText === 'function') loadPublicHomeText();
 };
 
 if (window.currentLang === 'ar') {
@@ -1081,7 +1092,7 @@ window.loadAdminContact = async () => {
 
             contactList.innerHTML += `
                 <div class="post-item-flex" style="display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee;">
-                    <div style="width: 40px; height: 40px; background: #f0f0f1; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-weight: bold; color: #FF5C00;">
+                    <div style="width: 40px; height: 40px; background: #f0f0f1; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-weight: bold; color: #888;">
                         ${data.type.substring(0, 1)}
                     </div>
                     <div style="flex: 1;">
@@ -1268,11 +1279,18 @@ setTimeout(() => {
     
     // ADD THIS NEW LINE TO TRIGGER THE STAGE IMAGES!
     if (typeof loadStageImages === 'function') loadStageImages();
+    // Load stage text on home page and admin
+    if (typeof loadPublicStageText === 'function') loadPublicStageText();
+    if (typeof loadAdminStageText === 'function') loadAdminStageText();
     // Under Admin Dashboards:
     if (typeof loadAdminHomeText === 'function') loadAdminHomeText();
     
     // Under Public Pages:
     if (typeof loadPublicHomeText === 'function') loadPublicHomeText();
+    // Page Builder:
+    if (typeof loadAdminPages === 'function' && document.getElementById('admin-pages-list')) loadAdminPages();
+    if (typeof loadNavbarCustomPages === 'function') loadNavbarCustomPages();
+    if (typeof renderCustomPage === 'function') renderCustomPage();
 }, 1200);
 
 // ==========================================
@@ -1324,6 +1342,86 @@ window.loadStageImages = async () => {
         console.error("Error loading stage images:", error);
     }
 };
+
+// ==========================================
+// STAGES TEXT ENGINE (BILINGUAL)
+// ==========================================
+
+// Save stage text from admin dashboard
+window.saveStageText = async () => {
+    if (typeof db === 'undefined') return;
+    try {
+        const payload = {};
+        for (let i = 1; i <= 4; i++) {
+            payload[`stage${i}_title`] = {
+                en: document.getElementById(`stage${i}-title-en`).value || '',
+                ar: document.getElementById(`stage${i}-title-ar`).value || ''
+            };
+            payload[`stage${i}_desc`] = {
+                en: document.getElementById(`stage${i}-desc-en`).value || '',
+                ar: document.getElementById(`stage${i}-desc-ar`).value || ''
+            };
+        }
+        payload.updatedAt = Date.now();
+        await setDoc(doc(db, "settings", "stage_text"), payload);
+        alert("All stage text saved successfully!");
+    } catch (error) {
+        console.error("Error saving stage text:", error);
+        alert("Failed to save stage text. Check console.");
+    }
+};
+
+// Load stage text into admin fields (pre-fill)
+window.loadAdminStageText = async () => {
+    if (typeof db === 'undefined') return;
+    if (!document.getElementById('stage1-title-en')) return;
+    try {
+        const docSnap = await getDoc(doc(db, "settings", "stage_text"));
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            for (let i = 1; i <= 4; i++) {
+                const titleData = data[`stage${i}_title`];
+                const descData = data[`stage${i}_desc`];
+                if (titleData) {
+                    document.getElementById(`stage${i}-title-en`).value = titleData.en || '';
+                    document.getElementById(`stage${i}-title-ar`).value = titleData.ar || '';
+                }
+                if (descData) {
+                    document.getElementById(`stage${i}-desc-en`).value = descData.en || '';
+                    document.getElementById(`stage${i}-desc-ar`).value = descData.ar || '';
+                }
+            }
+        }
+    } catch (error) {
+        console.error("Error loading admin stage text:", error);
+    }
+};
+
+// Load stage text on the public home page
+window.loadPublicStageText = async () => {
+    if (!document.getElementById('stage-title-1') || typeof db === 'undefined') return;
+    try {
+        const isArabic = document.documentElement.lang === 'ar' || document.body.classList.contains('arabic');
+        const lang = isArabic ? 'ar' : 'en';
+        const docSnap = await getDoc(doc(db, "settings", "stage_text"));
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            for (let i = 1; i <= 4; i++) {
+                const titleData = data[`stage${i}_title`];
+                const descData = data[`stage${i}_desc`];
+                if (titleData && titleData[lang]) {
+                    document.getElementById(`stage-title-${i}`).textContent = titleData[lang];
+                }
+                if (descData && descData[lang]) {
+                    document.getElementById(`stage-desc-${i}`).textContent = descData[lang];
+                }
+            }
+        }
+    } catch (error) {
+        console.error("Error loading public stage text:", error);
+    }
+};
+
 // ==========================================
 // HOMEPAGE FLOATING TEXT ENGINE (BILINGUAL)
 // ==========================================
@@ -1442,3 +1540,358 @@ window.sendEmail = function(event) {
             statusText.innerText = 'Failed to send. Please try again.';
         });
 };
+
+// ==========================================
+// 15. PAGE BUILDER ENGINE
+// ==========================================
+window._pageBlocks = [];
+let _blockCounter = 0;
+
+window.addPageBlock = function(type) {
+    const id = 'pb-' + (++_blockCounter);
+    const block = { id, type };
+    window._pageBlocks.push(block);
+    renderPageBlocks();
+};
+
+function removePageBlock(id) {
+    window._pageBlocks = window._pageBlocks.filter(b => b.id !== id);
+    renderPageBlocks();
+}
+
+function moveBlock(id, dir) {
+    const idx = window._pageBlocks.findIndex(b => b.id === id);
+    const newIdx = idx + dir;
+    if (newIdx < 0 || newIdx >= window._pageBlocks.length) return;
+    const temp = window._pageBlocks[idx];
+    window._pageBlocks[idx] = window._pageBlocks[newIdx];
+    window._pageBlocks[newIdx] = temp;
+    renderPageBlocks();
+}
+
+function getBlockEditorHTML(block) {
+    const id = block.id;
+    switch(block.type) {
+        case 'hero':
+            return `
+                <div class="pb-row"><input placeholder="Hero Title (EN)" id="${id}-title-en"><input placeholder="العنوان (عربي)" id="${id}-title-ar" dir="rtl"></div>
+                <div class="pb-row"><input placeholder="Subtitle (EN)" id="${id}-sub-en"><input placeholder="العنوان الفرعي (عربي)" id="${id}-sub-ar" dir="rtl"></div>`;
+        case 'heading':
+            return `<div class="pb-row"><input placeholder="Heading (EN)" id="${id}-text-en"><input placeholder="العنوان (عربي)" id="${id}-text-ar" dir="rtl"></div>
+                <select id="${id}-size"><option value="h2">Large (H2)</option><option value="h3">Medium (H3)</option><option value="h4">Small (H4)</option></select>`;
+        case 'text':
+            return `<textarea placeholder="Paragraph text (EN)" id="${id}-text-en" rows="4"></textarea>
+                <textarea placeholder="النص (عربي)" id="${id}-text-ar" rows="4" dir="rtl"></textarea>`;
+        case 'image':
+            return `<input type="file" accept="image/*" id="${id}-file">
+                <input placeholder="Alt text / caption (optional)" id="${id}-alt">`;
+        case 'image-text':
+            return `
+                <div class="pb-row"><input placeholder="Title (EN)" id="${id}-title-en"><input placeholder="العنوان (عربي)" id="${id}-title-ar" dir="rtl"></div>
+                <div class="pb-row"><textarea placeholder="Text (EN)" id="${id}-text-en" rows="3"></textarea><textarea placeholder="النص (عربي)" id="${id}-text-ar" rows="3" dir="rtl"></textarea></div>
+                <input type="file" accept="image/*" id="${id}-file">
+                <select id="${id}-layout"><option value="left">Image Left, Text Right</option><option value="right">Text Left, Image Right</option></select>`;
+        case 'button':
+            return `<div class="pb-row"><input placeholder="Button Text (EN)" id="${id}-text-en"><input placeholder="نص الزر (عربي)" id="${id}-text-ar" dir="rtl"></div>
+                <input placeholder="Link URL" id="${id}-url">
+                <select id="${id}-align"><option value="left">Left</option><option value="center">Center</option><option value="right">Right</option></select>`;
+        case 'spacer':
+            return `<select id="${id}-size"><option value="30">Small (30px)</option><option value="50" selected>Medium (50px)</option><option value="80">Large (80px)</option><option value="120">Extra Large (120px)</option></select>`;
+        case 'video':
+            return `<input placeholder="YouTube or Vimeo URL" id="${id}-url">`;
+        case 'cards':
+            return `<p style="color:#888; font-size:0.85rem; margin-bottom:8px;">Add up to 4 cards. Leave blank to skip.</p>
+                ${[1,2,3,4].map(n => `
+                <div style="border:1px solid #eee; padding:10px; border-radius:6px; margin-bottom:8px;">
+                    <div class="pb-row"><input placeholder="Card ${n} Title (EN)" id="${id}-c${n}-title-en"><input placeholder="عنوان ${n} (عربي)" id="${id}-c${n}-title-ar" dir="rtl"></div>
+                    <div class="pb-row"><input placeholder="Card ${n} Text (EN)" id="${id}-c${n}-text-en"><input placeholder="نص ${n} (عربي)" id="${id}-c${n}-text-ar" dir="rtl"></div>
+                </div>`).join('')}`;
+        default: return '';
+    }
+}
+
+function renderPageBlocks() {
+    const container = document.getElementById('page-builder-blocks');
+    if (!container) return;
+    const emptyMsg = document.getElementById('pb-empty-msg');
+
+    if (window._pageBlocks.length === 0) {
+        container.innerHTML = '<p id="pb-empty-msg" style="color: #aaa; text-align: center; margin: 30px 0;">Click a block type above to start building your page.</p>';
+        return;
+    }
+
+    container.innerHTML = window._pageBlocks.map((block, i) => `
+        <div class="pb-block" data-id="${block.id}">
+            <div class="pb-block-header">
+                <span class="pb-block-type">${block.type.replace('-', ' ')}</span>
+                <div class="pb-block-actions">
+                    <button onclick="moveBlock('${block.id}', -1)" title="Move Up">&#9650;</button>
+                    <button onclick="moveBlock('${block.id}', 1)" title="Move Down">&#9660;</button>
+                    <button class="pb-delete" onclick="removePageBlock('${block.id}')" title="Delete">&#10005;</button>
+                </div>
+            </div>
+            <div class="pb-block-body">
+                ${getBlockEditorHTML(block)}
+            </div>
+        </div>
+    `).join('');
+}
+
+// Make helpers available globally
+window.removePageBlock = removePageBlock;
+window.moveBlock = moveBlock;
+
+// Collect block data for saving
+async function collectBlockData() {
+    const blocks = [];
+    for (const block of window._pageBlocks) {
+        const id = block.id;
+        const data = { type: block.type };
+
+        switch(block.type) {
+            case 'hero':
+                data.title = { en: gv(`${id}-title-en`), ar: gv(`${id}-title-ar`) };
+                data.subtitle = { en: gv(`${id}-sub-en`), ar: gv(`${id}-sub-ar`) };
+                break;
+            case 'heading':
+                data.text = { en: gv(`${id}-text-en`), ar: gv(`${id}-text-ar`) };
+                data.size = gv(`${id}-size`);
+                break;
+            case 'text':
+                data.text = { en: gv(`${id}-text-en`), ar: gv(`${id}-text-ar`) };
+                break;
+            case 'image':
+                data.alt = gv(`${id}-alt`);
+                data.src = await fileToBase64(`${id}-file`);
+                break;
+            case 'image-text':
+                data.title = { en: gv(`${id}-title-en`), ar: gv(`${id}-title-ar`) };
+                data.text = { en: gv(`${id}-text-en`), ar: gv(`${id}-text-ar`) };
+                data.layout = gv(`${id}-layout`);
+                data.src = await fileToBase64(`${id}-file`);
+                break;
+            case 'button':
+                data.text = { en: gv(`${id}-text-en`), ar: gv(`${id}-text-ar`) };
+                data.url = gv(`${id}-url`);
+                data.align = gv(`${id}-align`);
+                break;
+            case 'spacer':
+                data.size = gv(`${id}-size`);
+                break;
+            case 'video':
+                data.url = gv(`${id}-url`);
+                break;
+            case 'cards':
+                data.cards = [];
+                for (let n = 1; n <= 4; n++) {
+                    const t = { en: gv(`${id}-c${n}-title-en`), ar: gv(`${id}-c${n}-title-ar`) };
+                    const d = { en: gv(`${id}-c${n}-text-en`), ar: gv(`${id}-c${n}-text-ar`) };
+                    if (t.en || t.ar) data.cards.push({ title: t, text: d });
+                }
+                break;
+        }
+        blocks.push(data);
+    }
+    return blocks;
+}
+
+function gv(id) { const el = document.getElementById(id); return el ? el.value || '' : ''; }
+
+async function fileToBase64(inputId) {
+    const input = document.getElementById(inputId);
+    if (!input || !input.files || !input.files[0]) return '';
+    return await compressImage(input.files[0], 1200, 0.8);
+}
+
+// Publish page to Firebase
+window.publishCustomPage = async function() {
+    if (typeof db === 'undefined') return alert('Database not connected.');
+
+    const titleEn = gv('page-title-en');
+    const titleAr = gv('page-title-ar');
+    const slug = gv('page-slug').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    const showInNav = document.getElementById('page-show-nav')?.checked || false;
+
+    if (!titleEn || !slug) return alert('Please enter a page title (English) and URL slug.');
+    if (window._pageBlocks.length === 0) return alert('Add at least one block to your page.');
+
+    try {
+        const blocks = await collectBlockData();
+        await setDoc(doc(db, "custom_pages", slug), {
+            title: { en: titleEn, ar: titleAr },
+            slug: slug,
+            showInNav: showInNav,
+            blocks: blocks,
+            createdAt: Date.now()
+        });
+
+        alert('Page published successfully! View it at: page.html#' + slug);
+        // Reset
+        window._pageBlocks = [];
+        _blockCounter = 0;
+        document.getElementById('page-title-en').value = '';
+        document.getElementById('page-title-ar').value = '';
+        document.getElementById('page-slug').value = '';
+        document.getElementById('page-show-nav').checked = false;
+        renderPageBlocks();
+        loadAdminPages();
+    } catch (error) {
+        console.error('Error publishing page:', error);
+        alert('Failed to publish. Check console.');
+    }
+};
+
+// Load pages list in admin
+window.loadAdminPages = async function() {
+    const el = document.getElementById('admin-pages-list');
+    if (!el || typeof db === 'undefined') return;
+
+    try {
+        const snapshot = await getDocs(collection(db, "custom_pages"));
+        if (snapshot.empty) { el.innerHTML = '<p style="color:#666;">No custom pages yet.</p>'; return; }
+
+        let html = '';
+        snapshot.forEach(d => {
+            const data = d.data();
+            const title = typeof data.title === 'object' ? data.title.en : data.title;
+            html += `
+                <div class="admin-page-item">
+                    <div>
+                        <h4>${title}</h4>
+                        <span>/${data.slug} ${data.showInNav ? '&bull; In Navbar' : ''}</span>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button style="color: #10b981; background: none; border: none; cursor: pointer; font-weight: 600;" onclick="window.open('page.html#${data.slug}', '_blank')">View</button>
+                        <button style="color: #ef4444; background: none; border: none; cursor: pointer; font-weight: 600;" onclick="deleteCustomPage('${data.slug}')">Delete</button>
+                    </div>
+                </div>`;
+        });
+        el.innerHTML = html;
+    } catch (error) {
+        console.error('Error loading pages:', error);
+    }
+};
+
+window.deleteCustomPage = async function(slug) {
+    if (!confirm('Delete this page permanently?')) return;
+    try {
+        await deleteDoc(doc(db, "custom_pages", slug));
+        alert('Page deleted.');
+        loadAdminPages();
+    } catch (error) {
+        console.error('Error deleting page:', error);
+    }
+};
+
+// Load navbar custom pages (for all public pages)
+window.loadNavbarCustomPages = async function() {
+    if (typeof db === 'undefined') return;
+    try {
+        const snapshot = await getDocs(collection(db, "custom_pages"));
+        const navLinks = document.querySelector('.nav-links');
+        if (!navLinks) return;
+
+        // Find the reference point (before language button)
+        const langBtn = navLinks.querySelector('.btn-lang');
+        if (!langBtn) return;
+
+        // Remove previously injected custom links
+        navLinks.querySelectorAll('.custom-nav-link').forEach(el => el.remove());
+
+        const lang = window.currentLang || 'en';
+        snapshot.forEach(d => {
+            const data = d.data();
+            if (!data.showInNav) return;
+            const title = typeof data.title === 'object' ? (data.title[lang] || data.title.en) : data.title;
+            const link = document.createElement('a');
+            link.href = 'page.html#' + data.slug;
+            link.textContent = title;
+            link.className = 'custom-nav-link';
+            navLinks.insertBefore(link, langBtn);
+        });
+    } catch (error) {
+        console.error('Error loading nav pages:', error);
+    }
+};
+
+// Render a custom page on page.html
+window.renderCustomPage = async function() {
+    const container = document.getElementById('custom-page-content');
+    if (!container || typeof db === 'undefined') return;
+
+    const slug = window.location.hash.replace('#', '') || new URLSearchParams(window.location.search).get('p');
+    if (!slug) { container.innerHTML = '<p style="text-align:center; color:#888; margin-top:100px;">Page not found.</p>'; return; }
+
+    try {
+        const docSnap = await getDoc(doc(db, "custom_pages", slug));
+        if (!docSnap.exists()) { container.innerHTML = '<p style="text-align:center; color:#888; margin-top:100px;">Page not found.</p>'; return; }
+
+        const data = docSnap.data();
+        const lang = window.currentLang || 'en';
+        const t = (obj) => typeof obj === 'object' ? (obj[lang] || obj.en || '') : (obj || '');
+
+        // Set page title
+        document.title = t(data.title) + ' | TAKAMUL';
+
+        let html = '';
+        (data.blocks || []).forEach(block => {
+            switch(block.type) {
+                case 'hero':
+                    html += `<div class="cp-hero"><h1>${t(block.title)}</h1><p>${t(block.subtitle)}</p></div>`;
+                    break;
+                case 'heading':
+                    const tag = block.size || 'h2';
+                    html += `<div class="cp-heading"><${tag}>${t(block.text)}</${tag}></div>`;
+                    break;
+                case 'text':
+                    html += `<div class="cp-text">${t(block.text).replace(/\n/g, '<br>')}</div>`;
+                    break;
+                case 'image':
+                    if (block.src) html += `<div class="cp-image"><img src="${block.src}" alt="${block.alt || ''}"></div>`;
+                    break;
+                case 'image-text':
+                    const dir = block.layout === 'right' ? 'row-reverse' : 'row';
+                    html += `<div class="cp-image-text" style="flex-direction:${dir}">
+                        ${block.src ? `<img src="${block.src}">` : ''}
+                        <div class="cp-it-text"><h3>${t(block.title)}</h3><p>${t(block.text).replace(/\n/g, '<br>')}</p></div>
+                    </div>`;
+                    break;
+                case 'button':
+                    html += `<div class="cp-button" style="text-align:${block.align || 'left'}"><a href="${block.url || '#'}" target="_blank">${t(block.text)}</a></div>`;
+                    break;
+                case 'spacer':
+                    html += `<div class="cp-spacer" style="height:${block.size || 50}px"></div>`;
+                    break;
+                case 'video':
+                    const vurl = convertVideoUrl(block.url);
+                    if (vurl) html += `<div class="cp-video"><iframe src="${vurl}" allowfullscreen></iframe></div>`;
+                    break;
+                case 'cards':
+                    if (block.cards && block.cards.length) {
+                        html += '<div class="cp-cards">';
+                        block.cards.forEach(c => {
+                            html += `<div class="cp-card"><h4>${t(c.title)}</h4><p>${t(c.text)}</p></div>`;
+                        });
+                        html += '</div>';
+                    }
+                    break;
+            }
+        });
+
+        container.innerHTML = html;
+    } catch (error) {
+        console.error('Error rendering page:', error);
+        container.innerHTML = '<p style="text-align:center; color:#888;">Error loading page.</p>';
+    }
+};
+
+function convertVideoUrl(url) {
+    if (!url) return '';
+    // YouTube
+    const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+    if (ytMatch) return 'https://www.youtube.com/embed/' + ytMatch[1];
+    // Vimeo
+    const vmMatch = url.match(/vimeo\.com\/(\d+)/);
+    if (vmMatch) return 'https://player.vimeo.com/video/' + vmMatch[1];
+    return url;
+}

@@ -23,7 +23,8 @@
             <li><a href="#" id="nav-hometext" onclick="switchAdminTab('hometext')">Homepage Text</a></li>
             <li><a href="#" id="nav-stages" onclick="switchAdminTab('stages')">Homepage Stages</a></li>
             <li><a href="#" id="nav-blocks" onclick="switchAdminTab('blocks')">Custom Blocks Builder</a></li>
-            <li style="margin-top: 50px;"><a href="index.html" style="color: #FF5C00;">View Live Site</a></li>
+            <li><a href="#" id="nav-advanced" onclick="switchAdminTab('advanced')">Advanced Features</a></li>
+            <li style="margin-top: 50px;"><a href="index.html" style="color: #888;">View Live Site</a></li>
             <li><a href="#" onclick="logout()">Log Out</a></li>
         </ul>
     </div>
@@ -51,6 +52,13 @@
             <div class="admin-card">
                 <h3>Published Posts</h3>
                 <div id="admin-post-list"></div>
+            </div>
+
+            <div class="admin-card">
+                <h3>Brand Logos (Scrolling Bar)</h3>
+                <p style="color: #666; margin-bottom: 15px;">Upload brand/client logos that scroll across the achievements page.</p>
+                <input type="file" accept="image/*" onchange="addMarqueeImage(event)" style="margin-bottom: 15px;">
+                <div id="admin-marquee-list" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
             </div>
         </div>
 
@@ -118,32 +126,51 @@
 
         <div id="tab-stages" class="admin-tab" style="display: none;">
             <h2>Manage Homepage Stages</h2>
+
             <div class="admin-card">
-                <h3>Update Stage Images</h3>
-                <p style="color: #666; margin-bottom: 20px;">Upload new images for the 4 interactive stages on the home page.</p>
+                <h3>Update Stage Text & Images</h3>
+                <p style="color: #666; margin-bottom: 20px;">Edit the title, description, and image for each of the 4 stages on the home page.</p>
 
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
                     <div style="border: 1px solid #eee; padding: 15px; border-radius: 8px;">
-                        <h4 style="margin-bottom: 10px; color: #FF5C00;">Stage 01: Discovery</h4>
+                        <h4 style="margin-bottom: 10px; color: #888;">Stage 01</h4>
+                        <input type="text" id="stage1-title-en" placeholder="Title (English)" style="margin-bottom: 8px;">
+                        <input type="text" id="stage1-title-ar" placeholder="العنوان (عربي)" dir="rtl" style="margin-bottom: 8px;">
+                        <textarea id="stage1-desc-en" placeholder="Description (English)" rows="3" style="margin-bottom: 8px;"></textarea>
+                        <textarea id="stage1-desc-ar" placeholder="الوصف (عربي)" rows="3" dir="rtl" style="margin-bottom: 8px;"></textarea>
                         <input type="file" id="stage1-upload" accept="image/*" style="margin-bottom: 10px;">
-                        <button class="btn-orange" onclick="updateStageImage(1)">Save Stage 1</button>
+                        <button class="btn-orange" onclick="updateStageImage(1)">Save Image</button>
                     </div>
                     <div style="border: 1px solid #eee; padding: 15px; border-radius: 8px;">
-                        <h4 style="margin-bottom: 10px; color: #FF5C00;">Stage 02: Imagine</h4>
+                        <h4 style="margin-bottom: 10px; color: #888;">Stage 02</h4>
+                        <input type="text" id="stage2-title-en" placeholder="Title (English)" style="margin-bottom: 8px;">
+                        <input type="text" id="stage2-title-ar" placeholder="العنوان (عربي)" dir="rtl" style="margin-bottom: 8px;">
+                        <textarea id="stage2-desc-en" placeholder="Description (English)" rows="3" style="margin-bottom: 8px;"></textarea>
+                        <textarea id="stage2-desc-ar" placeholder="الوصف (عربي)" rows="3" dir="rtl" style="margin-bottom: 8px;"></textarea>
                         <input type="file" id="stage2-upload" accept="image/*" style="margin-bottom: 10px;">
-                        <button class="btn-orange" onclick="updateStageImage(2)">Save Stage 2</button>
+                        <button class="btn-orange" onclick="updateStageImage(2)">Save Image</button>
                     </div>
                     <div style="border: 1px solid #eee; padding: 15px; border-radius: 8px;">
-                        <h4 style="margin-bottom: 10px; color: #FF5C00;">Stage 03: Innovate</h4>
+                        <h4 style="margin-bottom: 10px; color: #888;">Stage 03</h4>
+                        <input type="text" id="stage3-title-en" placeholder="Title (English)" style="margin-bottom: 8px;">
+                        <input type="text" id="stage3-title-ar" placeholder="العنوان (عربي)" dir="rtl" style="margin-bottom: 8px;">
+                        <textarea id="stage3-desc-en" placeholder="Description (English)" rows="3" style="margin-bottom: 8px;"></textarea>
+                        <textarea id="stage3-desc-ar" placeholder="الوصف (عربي)" rows="3" dir="rtl" style="margin-bottom: 8px;"></textarea>
                         <input type="file" id="stage3-upload" accept="image/*" style="margin-bottom: 10px;">
-                        <button class="btn-orange" onclick="updateStageImage(3)">Save Stage 3</button>
+                        <button class="btn-orange" onclick="updateStageImage(3)">Save Image</button>
                     </div>
                     <div style="border: 1px solid #eee; padding: 15px; border-radius: 8px;">
-                        <h4 style="margin-bottom: 10px; color: #FF5C00;">Stage 04: Impact</h4>
+                        <h4 style="margin-bottom: 10px; color: #888;">Stage 04</h4>
+                        <input type="text" id="stage4-title-en" placeholder="Title (English)" style="margin-bottom: 8px;">
+                        <input type="text" id="stage4-title-ar" placeholder="العنوان (عربي)" dir="rtl" style="margin-bottom: 8px;">
+                        <textarea id="stage4-desc-en" placeholder="Description (English)" rows="3" style="margin-bottom: 8px;"></textarea>
+                        <textarea id="stage4-desc-ar" placeholder="الوصف (عربي)" rows="3" dir="rtl" style="margin-bottom: 8px;"></textarea>
                         <input type="file" id="stage4-upload" accept="image/*" style="margin-bottom: 10px;">
-                        <button class="btn-orange" onclick="updateStageImage(4)">Save Stage 4</button>
+                        <button class="btn-orange" onclick="updateStageImage(4)">Save Image</button>
                     </div>
                 </div>
+
+                <button class="btn-orange" style="margin-top: 20px; width: 100%;" onclick="saveStageText()">Save All Stage Text</button>
             </div>
         </div>
         
@@ -155,7 +182,7 @@
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
                     
                     <div style="border: 1px solid #eee; padding: 15px; border-radius: 8px;">
-                        <h4 style="margin-bottom: 10px; color: #FF5C00;">Top Left (e.g., Established 2015)</h4>
+                        <h4 style="margin-bottom: 10px; color: #888;">Top Left (e.g., Established 2015)</h4>
                         <input type="text" id="ht-tl-title-en" placeholder="Title (English)">
                         <input type="text" id="ht-tl-title-ar" placeholder="العنوان (عربي)" dir="rtl">
                         <textarea id="ht-tl-desc-en" placeholder="Description (English)" rows="3"></textarea>
@@ -163,7 +190,7 @@
                     </div>
 
                     <div style="border: 1px solid #eee; padding: 15px; border-radius: 8px;">
-                        <h4 style="margin-bottom: 10px; color: #FF5C00;">Top Right (e.g., Global Bridge)</h4>
+                        <h4 style="margin-bottom: 10px; color: #888;">Top Right (e.g., Global Bridge)</h4>
                         <input type="text" id="ht-tr-title-en" placeholder="Title (English)">
                         <input type="text" id="ht-tr-title-ar" placeholder="العنوان (عربي)" dir="rtl">
                         <textarea id="ht-tr-desc-en" placeholder="Description (English)" rows="3"></textarea>
@@ -171,7 +198,7 @@
                     </div>
 
                     <div style="border: 1px solid #eee; padding: 15px; border-radius: 8px;">
-                        <h4 style="margin-bottom: 10px; color: #FF5C00;">Bottom Left (e.g., AI Innovation)</h4>
+                        <h4 style="margin-bottom: 10px; color: #888;">Bottom Left (e.g., AI Innovation)</h4>
                         <input type="text" id="ht-bl-title-en" placeholder="Title (English)">
                         <input type="text" id="ht-bl-title-ar" placeholder="العنوان (عربي)" dir="rtl">
                         <textarea id="ht-bl-desc-en" placeholder="Description (English)" rows="3"></textarea>
@@ -179,7 +206,7 @@
                     </div>
 
                     <div style="border: 1px solid #eee; padding: 15px; border-radius: 8px;">
-                        <h4 style="margin-bottom: 10px; color: #FF5C00;">Bottom Right (e.g., Our Mission)</h4>
+                        <h4 style="margin-bottom: 10px; color: #888;">Bottom Right (e.g., Our Mission)</h4>
                         <input type="text" id="ht-br-title-en" placeholder="Title (English)">
                         <input type="text" id="ht-br-title-ar" placeholder="العنوان (عربي)" dir="rtl">
                         <textarea id="ht-br-desc-en" placeholder="Description (English)" rows="3"></textarea>
@@ -249,6 +276,64 @@
                 <div id="admin-blocks-list"></div>
             </div>
         </div>
+        <div id="tab-advanced" class="admin-tab" style="display: none;">
+            <h2>Advanced Features</h2>
+
+            <div class="admin-card">
+                <h3>Create New Page</h3>
+                <p style="color: #666; margin-bottom: 20px;">Build custom pages with a drag-and-drop style builder. Add them to the navbar if needed.</p>
+
+                <div style="display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 200px;">
+                        <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 6px;">Page Title (English)</label>
+                        <input type="text" id="page-title-en" placeholder="e.g. Our Services">
+                    </div>
+                    <div style="flex: 1; min-width: 200px;">
+                        <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 6px;">عنوان الصفحة (عربي)</label>
+                        <input type="text" id="page-title-ar" placeholder="مثال: خدماتنا" dir="rtl">
+                    </div>
+                    <div style="flex: 1; min-width: 200px;">
+                        <label style="font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 6px;">Page URL Slug</label>
+                        <input type="text" id="page-slug" placeholder="e.g. our-services (no spaces)">
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 20px; margin-bottom: 25px; align-items: center;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 600;">
+                        <input type="checkbox" id="page-show-nav" style="width: 18px; height: 18px; accent-color: #888;">
+                        Show in Navbar
+                    </label>
+                </div>
+
+                <hr style="border: none; border-top: 1px solid #eee; margin-bottom: 25px;">
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h4 style="margin: 0;">Page Blocks</h4>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button class="pb-add-btn" onclick="addPageBlock('hero')">+ Hero</button>
+                        <button class="pb-add-btn" onclick="addPageBlock('heading')">+ Heading</button>
+                        <button class="pb-add-btn" onclick="addPageBlock('text')">+ Text</button>
+                        <button class="pb-add-btn" onclick="addPageBlock('image')">+ Image</button>
+                        <button class="pb-add-btn" onclick="addPageBlock('image-text')">+ Image + Text</button>
+                        <button class="pb-add-btn" onclick="addPageBlock('button')">+ Button</button>
+                        <button class="pb-add-btn" onclick="addPageBlock('spacer')">+ Spacer</button>
+                        <button class="pb-add-btn" onclick="addPageBlock('video')">+ Video</button>
+                        <button class="pb-add-btn" onclick="addPageBlock('cards')">+ Cards Row</button>
+                    </div>
+                </div>
+
+                <div id="page-builder-blocks" style="min-height: 100px; border: 2px dashed #ddd; border-radius: 12px; padding: 20px; background: #fafafa;">
+                    <p id="pb-empty-msg" style="color: #aaa; text-align: center; margin: 30px 0;">Click a block type above to start building your page.</p>
+                </div>
+
+                <button class="btn-orange" style="margin-top: 20px; width: 100%;" onclick="publishCustomPage()">Publish Page</button>
+            </div>
+
+            <div class="admin-card">
+                <h3>Your Custom Pages</h3>
+                <div id="admin-pages-list"><p style="color: #666;">Loading...</p></div>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
@@ -272,7 +357,7 @@
         
         onAuthStateChanged(auth, (user) => {
             if (!user) {
-                window.location.replace("index.html");
+                window.location.replace("admin_login.html");
             }
         });
     </script>

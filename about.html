@@ -32,10 +32,9 @@
             <i class="ph ph-x close-menu-btn" onclick="toggleMenu()"></i>
             <a href="achievement.html">Achievement</a>
             <a href="team.html">Team</a>
-            <a href="about.html" style="color: #FF5C00;">About us</a>
+            <a href="about.html" style="color: #888;">About us</a>
             <a href="contact.html">Contact</a>
             <button class="btn-lang" onclick="toggleLanguage()">🌐 AR / EN</button>
-            <button class="btn-login" onclick="document.getElementById('login-modal').style.display='flex'; toggleMenu();">Log In</button>
         </div>
     </nav>
 
@@ -45,17 +44,6 @@
         
         <div class="rich-text-content" id="public-about-content">
             </div>
-    </div>
-
-    <div id="login-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="document.getElementById('login-modal').style.display='none'">&times;</span>
-            <h2 style="color: #111;">System Login</h2>
-            <input type="text" id="username" placeholder="Username">
-            <input type="password" id="password" placeholder="Password">
-            <button class="btn-orange" onclick="checkLogin()">Access Dashboard</button>
-            <p id="error-msg" style="color: #ff4d4d; display: none; margin-top: 10px;">Access Denied</p>
-        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>

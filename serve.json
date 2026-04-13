@@ -1,0 +1,14 @@
+{
+  "cleanUrls": false,
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/admin-dashboard", "destination": "/admin-dashboard.html" },
+    { "source": "/achievement", "destination": "/achievement.html" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/contact", "destination": "/contact.html" },
+    { "source": "/team", "destination": "/team.html" },
+    { "source": "/article", "destination": "/article.html" },
+    { "source": "/page", "destination": "/page.html" },
+    { "source": "/admin_login", "destination": "/admin_login.html" }
+  ]
+}

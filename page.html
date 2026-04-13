@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Achievements | TAKAMUL</title>
-    
+    <title>TAKAMUL</title>
+
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
-<body class="frosted-theme" data-page="achievements">
-    
+<body class="frosted-theme" data-page="custom">
+
     <div id="preloader">
         <img src="logo.png" alt="Takamul Loading" class="preloader-logo">
     </div>
@@ -22,7 +22,7 @@
         <div class="mobile-menu-btn" onclick="toggleMenu()"><i class="ph ph-dots-three-vertical"></i></div>
         <div class="nav-links" id="nav-links">
             <i class="ph ph-x close-menu-btn" onclick="toggleMenu()"></i>
-            <a href="achievement.html" style="color: #888;">Achievement</a>
+            <a href="achievement.html">Achievement</a>
             <a href="team.html">Team</a>
             <a href="about.html">About us</a>
             <a href="contact.html">Contact</a>
@@ -30,20 +30,22 @@
         </div>
     </nav>
 
-    <div class="page-container" style="opacity: 1 !important; visibility: visible !important;">
-        <h1 class="page-title">Our Achievements</h1>
-        <p class="page-subtitle">The milestones and stories that define our journey.</p>
-        
-        <div class="marquee-container" id="marquee-section" style="display: none; opacity: 1 !important; visibility: visible !important;">
-            <div class="marquee-content" id="marquee-track">
-                </div>
-        </div>
-
-        <div id="blog-container" class="blog-grid" style="opacity: 1 !important; visibility: visible !important;">
-            </div>
+    <div id="custom-page-content" class="custom-page-container" style="opacity: 1 !important; visibility: visible !important;">
+        <p style="text-align: center; color: #888; margin-top: 100px;">Loading page...</p>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="brand-info">
+                <h2>TAKAMUL</h2>
+                <p>An integrated system creating solutions and building bridges between brands and the public.</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 TAKAMUL. All Rights Reserved.</p>
+        </div>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>

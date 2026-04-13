@@ -34,7 +34,6 @@
             <a href="team.html">Team</a>
             <a href="about.html">About us</a>
             <a href="contact.html">Contact</a>   <button class="btn-lang" onclick="toggleLanguage()">🌐 AR / EN</button>
-            <button class="btn-login" onclick="document.getElementById('login-modal').style.display='flex'; toggleMenu();">Log In</button>
         </div>
     </nav>
 
@@ -68,8 +67,8 @@
             <div class="fp-content">
                 <div class="text-column">
                     <h5 class="stage-label">STAGE 01</h5>
-                    <h2>Discovery</h2>
-                    <p>We listen to the story from the beginning, searching for the small details that form the foundation of success and understanding your challenges.</p>
+                    <h2 id="stage-title-1">Discovery</h2>
+                    <p id="stage-desc-1">We listen to the story from the beginning, searching for the small details that form the foundation of success and understanding your challenges.</p>
                 </div>
                 <div class="visual-column">
                     <img id="stage-img-1" src="..." class="service-img">
@@ -81,8 +80,8 @@
             <div class="fp-content">
                 <div class="text-column">
                     <h5 class="stage-label">STAGE 02</h5>
-                    <h2>Imagine</h2>
-                    <p>Turning data into insights and insights into scenarios. We craft the creative ideas and draw the features of the story told to the world.</p>
+                    <h2 id="stage-title-2">Imagine</h2>
+                    <p id="stage-desc-2">Turning data into insights and insights into scenarios. We craft the creative ideas and draw the features of the story told to the world.</p>
                 </div>
                 <div class="visual-column">
                     <img id="stage-img-2" src="..." class="service-img">
@@ -94,8 +93,8 @@
             <div class="fp-content">
                 <div class="text-column">
                     <h5 class="stage-label">STAGE 03</h5>
-                    <h2>Execute</h2>
-                    <p>Translating strategies into tangible tools: campaigns, content, digital designs, and events where we create real value.</p>
+                    <h2 id="stage-title-3">Execute</h2>
+                    <p id="stage-desc-3">Translating strategies into tangible tools: campaigns, content, digital designs, and events where we create real value.</p>
                 </div>
                 <div class="visual-column">
                     <img id="stage-img-3" src="..." class="service-img">
@@ -107,8 +106,8 @@
             <div class="fp-content">
                 <div class="text-column">
                     <h5 class="stage-label">STAGE 04</h5>
-                    <h2 style="color: #ffffff;">Impact</h2>
-                    <p>We measure results and monitor interaction to create a long-term impact that builds sustainable relationships.</p>
+                    <h2 id="stage-title-4" style="color: #ffffff;">Impact</h2>
+                    <p id="stage-desc-4">We measure results and monitor interaction to create a long-term impact that builds sustainable relationships.</p>
                 </div>
                 <div class="visual-column">
                     <img id="stage-img-4" src="..." class="service-img">
@@ -133,17 +132,6 @@
             <p>&copy; 2026 TAKAMUL. Founded in 2015.</p>
         </div>
     </footer>
-
-    <div id="login-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="document.getElementById('login-modal').style.display='none'">&times;</span>
-            <h2 style="color: #111;">System Login</h2>
-            <input type="text" id="username" placeholder="Username">
-            <input type="password" id="password" placeholder="Password">
-            <button class="btn-orange" onclick="checkLogin()">Access Dashboard</button>
-            <p id="error-msg" style="color: #ff4d4d; display: none; margin-top: 10px;">Access Denied</p>
-        </div>
-    </div>
 
     <script src="script.js"></script>
     
