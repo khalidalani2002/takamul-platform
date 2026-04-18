@@ -710,7 +710,7 @@ if (container) {
     
     container.appendChild(renderer.domElement);
 
-    const studioHdriUrl = 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/studio_small_02_1k.hdr'; 
+    const studioHdriUrl = 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/studio_small_02_1k.hdr';
     let knot;
 
     new THREE.RGBELoader().load(studioHdriUrl, function (texture) {
@@ -727,8 +727,9 @@ if (container) {
             envMapIntensity: 1.8  // الاعتماد على انعكاس الاستوديو لإبراز التفاصيل
         });
 
-        const geometry = new THREE.TorusKnotGeometry(22, 7, 400, 100, 3, 4);
+        const geometry = new THREE.TorusGeometry(22, 7, 80, 200);
         knot = new THREE.Mesh(geometry, material);
+        knot.userData.mat = material;
         scene.add(knot);
     });
 
@@ -740,12 +741,100 @@ if (container) {
     directionalLight.position.set(10, 20, 10);
     scene.add(directionalLight);
 
+    const ringClock = new THREE.Clock();
+    const R_OUTER = 30;     // fixed outer silhouette radius
+    const tubeMin = 3;      // thinnest side of the tube
+    const tubeMax = 8;      // thickest side of the tube
+
+    // Build a torus with variable tube thickness → hole is offset from center.
+    // `phi` sets the direction of the thick side; animate phi to orbit the hole.
+    function makeEccentricRing(R_outer, tMin, tMax, phi, radSegs, tubSegs) {
+        const positions = [];
+        const indices = [];
+        for (let i = 0; i <= radSegs; i++) {
+            const u = (i / radSegs) * Math.PI * 2;
+            const k = 0.5 + 0.5 * Math.cos(u - phi);   // 0..1 around ring
+            const tube = tMin + (tMax - tMin) * k;
+            const ringR = R_outer - tube;              // keep outer silhouette constant
+            const cu = Math.cos(u), su = Math.sin(u);
+            for (let j = 0; j <= tubSegs; j++) {
+                const v = (j / tubSegs) * Math.PI * 2;
+                const cv = Math.cos(v), sv = Math.sin(v);
+                positions.push(
+                    (ringR + tube * cv) * cu,
+                    (ringR + tube * cv) * su,
+                    tube * sv
+                );
+            }
+        }
+        for (let i = 0; i < radSegs; i++) {
+            for (let j = 0; j < tubSegs; j++) {
+                const a = i * (tubSegs + 1) + j;
+                const b = a + tubSegs + 1;
+                indices.push(a, b, a + 1, b, b + 1, a + 1);
+            }
+        }
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+        geo.setIndex(indices);
+        geo.computeVertexNormals();
+        return geo;
+    }
+
+    // Mouse interaction — tilt toward cursor + pulse on hover/click
+    const mouse = { x: 0, y: 0, tx: 0, ty: 0, inside: false, pressed: false };
+
+    window.addEventListener('mousemove', (e) => {
+        const rect = container.getBoundingClientRect();
+        const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        const ny = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+        mouse.tx = nx;
+        mouse.ty = ny;
+        mouse.inside =
+            e.clientX >= rect.left && e.clientX <= rect.right &&
+            e.clientY >= rect.top  && e.clientY <= rect.bottom;
+    });
+    container.addEventListener('mousedown', () => (mouse.pressed = true));
+    window.addEventListener('mouseup',   () => (mouse.pressed = false));
+
     function animate() {
         requestAnimationFrame(animate);
 
         if (knot) {
-            knot.rotation.x += 0.003;
-            knot.rotation.y += 0.005;
+            // Smoothly ease mouse toward cursor target
+            mouse.x += (mouse.tx - mouse.x) * 0.08;
+            mouse.y += (mouse.ty - mouse.y) * 0.08;
+
+            const t = ringClock.getElapsedTime();
+
+            // Rotation order so Z-spin is visible on top of X tilt
+            knot.rotation.order = 'ZYX';
+
+            // MAIN MOTION: continuous Z spin (faster on hover)
+            const spinSpeed = mouse.inside ? 0.006 : 0.0015;
+            knot.rotation.z += spinSpeed;
+
+            // Slight X oscillation — gentle nod back and forth, + small mouse tilt
+            knot.rotation.x = Math.sin(t * 0.6) * 0.12 + mouse.y * 0.25;
+            knot.rotation.y = mouse.x * 0.25;
+
+            // Gentle float on Y (translation, not rotation) + mouse drift
+            knot.position.y = Math.sin(t * 0.9) * 2.2 - mouse.y * 3;
+            knot.position.x = mouse.x * 3;
+
+            // Breathing hole: both min and max tube swell together so the hole
+            // visibly shrinks and grows (outer silhouette stays at R_OUTER).
+            const breathe = 0.5 + 0.5 * Math.sin(t * 0.7); // 0..1
+            const swell = breathe * 4 + (mouse.pressed ? 3 : 0);
+            const tMin = tubeMin + swell;
+            const tMax = tubeMax + swell;
+
+            // Hole offset direction orbits slowly; mouse nudges it toward cursor
+            const phi = t * 0.4 + Math.atan2(mouse.y, mouse.x) * 0.5;
+
+            const oldGeo = knot.geometry;
+            knot.geometry = makeEccentricRing(R_OUTER, tMin, tMax, phi, 160, 48);
+            oldGeo.dispose();
         }
 
         renderer.render(scene, camera);
