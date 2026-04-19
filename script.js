@@ -713,6 +713,15 @@ if (container) {
     const studioHdriUrl = 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/studio_small_02_1k.hdr';
     let knot;
 
+    // Two nested groups so spin and tilt don't contaminate each other:
+    //   outerGroup  → holds Y float + X/Y tilt + mouse tilt (world-space)
+    //     spinGroup → holds the continuous Z spin
+    //       knot    → just the mesh
+    const outerGroup = new THREE.Group();
+    const spinGroup  = new THREE.Group();
+    outerGroup.add(spinGroup);
+    scene.add(outerGroup);
+
     new THREE.RGBELoader().load(studioHdriUrl, function (texture) {
         texture.mapping = THREE.EquirectangularReflectionMapping;
         scene.environment = texture; 
@@ -730,7 +739,7 @@ if (container) {
         const geometry = new THREE.TorusGeometry(22, 7, 80, 200);
         knot = new THREE.Mesh(geometry, material);
         knot.userData.mat = material;
-        scene.add(knot);
+        spinGroup.add(knot);
     });
 
     // التعديل الجذري هنا: قللنا الإضاءة بشكل كبير حتى ترجع الظلال ويبين 3D
@@ -781,56 +790,38 @@ if (container) {
         return geo;
     }
 
-    // Mouse interaction — tilt toward cursor + pulse on hover/click
-    const mouse = { x: 0, y: 0, tx: 0, ty: 0, inside: false, pressed: false };
-
-    window.addEventListener('mousemove', (e) => {
-        const rect = container.getBoundingClientRect();
-        const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-        const ny = ((e.clientY - rect.top) / rect.height) * 2 - 1;
-        mouse.tx = nx;
-        mouse.ty = ny;
-        mouse.inside =
-            e.clientX >= rect.left && e.clientX <= rect.right &&
-            e.clientY >= rect.top  && e.clientY <= rect.bottom;
-    });
-    container.addEventListener('mousedown', () => (mouse.pressed = true));
-    window.addEventListener('mouseup',   () => (mouse.pressed = false));
-
     function animate() {
         requestAnimationFrame(animate);
 
         if (knot) {
-            // Smoothly ease mouse toward cursor target
-            mouse.x += (mouse.tx - mouse.x) * 0.08;
-            mouse.y += (mouse.ty - mouse.y) * 0.08;
-
             const t = ringClock.getElapsedTime();
 
-            // Rotation order so Z-spin is visible on top of X tilt
-            knot.rotation.order = 'ZYX';
+            // Continuous slow Z spin
+            spinGroup.rotation.z += 0.0025;
 
-            // MAIN MOTION: continuous Z spin (faster on hover)
-            const spinSpeed = mouse.inside ? 0.006 : 0.0015;
-            knot.rotation.z += spinSpeed;
+            // Autonomous gentle tilt + float — layered sines at different frequencies
+            // so the motion doesn't feel like a clean loop.
+            outerGroup.rotation.x =
+                Math.sin(t * 0.6)  * 0.10 +
+                Math.sin(t * 0.23) * 0.05;
+            outerGroup.rotation.y =
+                Math.sin(t * 0.45) * 0.12 +
+                Math.cos(t * 0.19) * 0.04;
+            outerGroup.position.y =
+                Math.sin(t * 0.9)  * 2.2 +
+                Math.sin(t * 0.31) * 1.0;
+            outerGroup.position.x =
+                Math.cos(t * 0.7)  * 1.6 +
+                Math.sin(t * 0.27) * 0.8;
 
-            // Slight X oscillation — gentle nod back and forth, + small mouse tilt
-            knot.rotation.x = Math.sin(t * 0.6) * 0.12 + mouse.y * 0.25;
-            knot.rotation.y = mouse.x * 0.25;
-
-            // Gentle float on Y (translation, not rotation) + mouse drift
-            knot.position.y = Math.sin(t * 0.9) * 2.2 - mouse.y * 3;
-            knot.position.x = mouse.x * 3;
-
-            // Breathing hole: both min and max tube swell together so the hole
-            // visibly shrinks and grows (outer silhouette stays at R_OUTER).
-            const breathe = 0.5 + 0.5 * Math.sin(t * 0.7); // 0..1
-            const swell = breathe * 4 + (mouse.pressed ? 3 : 0);
+            // Breathing hole — tube swells & shrinks so hole visibly changes size
+            const breathe = 0.5 + 0.5 * Math.sin(t * 0.7);
+            const swell = breathe * 4;
             const tMin = tubeMin + swell;
             const tMax = tubeMax + swell;
 
-            // Hole offset direction orbits slowly; mouse nudges it toward cursor
-            const phi = t * 0.4 + Math.atan2(mouse.y, mouse.x) * 0.5;
+            // Hole offset direction orbits slowly on its own
+            const phi = t * 0.4;
 
             const oldGeo = knot.geometry;
             knot.geometry = makeEccentricRing(R_OUTER, tMin, tMax, phi, 160, 48);
