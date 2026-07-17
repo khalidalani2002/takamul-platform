@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services — Style 2 (Editorial)</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .s2-wrap { max-width: 940px; margin: 46px auto 0; }
+    .s2-row { display: grid; grid-template-columns: auto 1fr; gap: 30px; align-items: start; padding: 36px 0; border-top: 1px solid var(--border); }
+    .s2-row:last-child { border-bottom: 1px solid var(--border); }
+    .s2-num { font-family: "Clash Display", sans-serif; font-size: clamp(3rem, 7vw, 5rem); font-weight: 700; line-height: .85;
+      background: linear-gradient(180deg, #fff, #7a7a7d); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .s2-head { font-size: clamp(1.3rem, 3vw, 1.7rem); font-weight: 800; color: #fff; margin-bottom: 16px; }
+    .s2-items { display: flex; flex-wrap: wrap; gap: 10px 12px; }
+    .s2-items span { padding: 9px 18px; border: 1px solid var(--border); border-radius: 999px; color: var(--silver-1); font-size: .95rem;
+      transition: border-color .2s, background .2s; }
+    .s2-items span:hover { border-color: rgba(255,255,255,.4); background: var(--glass); }
+    @media (max-width: 560px) { .s2-row { grid-template-columns: 1fr; gap: 12px; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html" class="brand-link"><img src="images/logo.png" class="brand-logo" alt="Takamul" /></a>
+    <nav class="nav">
+      <a href="about.html" class="active">Services</a>
+      <a href="events.html">Events</a>
+      <a href="muathren.html">Influencers</a>
+    </nav>
+  </header>
+
+  <div class="bg-layer" id="bgLayer"></div>
+
+  <main class="page">
+    <h1 class="services-title silver-text">خدماتنا</h1>
+    <p class="services-sub">Our Services · Editorial</p>
+
+    <div class="s2-wrap">
+      <div class="s2-row"><div class="s2-num">01</div><div><h2 class="s2-head">الاستراتيجيات والتسويق</h2>
+        <div class="s2-items"><span>دراسات السوق والتحليل العميق</span><span>بناء الاستراتيجيات التسويقية والعلامات التجارية</span><span>إدارة السمعة وإدارة الأزمات الإعلامية</span><span>الحملات الإعلانية التقليدية والرقمية</span></div></div></div>
+      <div class="s2-row"><div class="s2-num">02</div><div><h2 class="s2-head">الهوية البصرية والتصميم</h2>
+        <div class="s2-items"><span>إعادة بناء الهوية (Rebranding)</span><span>تصميم الأنظمة البصرية (شعارات، أدلة الاستخدام)</span><span>تصوير وإنتاج المواد الدعائية</span><span>التغليف والتصميم البيئي والإعلاني</span></div></div></div>
+      <div class="s2-row"><div class="s2-num">03</div><div><h2 class="s2-head">الحلول الرقمية والذكاء الاصطناعي</h2>
+        <div class="s2-items"><span>تطوير مواقع وتطبيقات (iOS/Android)</span><span>نظم إدارة المحتوى</span><span>واجهة وتجربة المستخدم (UI/UX)</span><span>حلول الذكاء الاصطناعي في التحليلات</span></div></div></div>
+      <div class="s2-row"><div class="s2-num">04</div><div><h2 class="s2-head">المحتوى والإعلام والمؤثرين</h2>
+        <div class="s2-items"><span>كتابة المحتوى الإعلاني والإبداعي</span><span>إنتاج الفيديو (إعلاني، وثائقي، قصير)</span><span>إدارة منصات التواصل الاجتماعي</span><span>التعاون مع المؤثرين وصناع المحتوى</span></div></div></div>
+    </div>
+  </main>
+
+  <nav class="style-switch">
+    <span class="label">Editorial</span>
+    <a href="services-1.html">1</a>
+    <a href="services-2.html" class="on">2</a>
+    <a href="services-3.html">3</a>
+    <a href="services-4.html">4</a>
+    <a href="services-5.html">5</a>
+  </nav>
+
+  <script src="effects.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Style 1 — Ringed Giants</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Style 1 — realistic ringed gas giants */
+    .orb, .orb-lg {
+      filter: none;
+      opacity: 0.92;
+      background:
+        linear-gradient(0deg, rgba(0,0,0,0.18), transparent 22%, rgba(255,255,255,0.10) 38%, transparent 58%, rgba(0,0,0,0.15) 80%),
+        radial-gradient(circle at 32% 28%, #f6e6c4 0%, #dcb87e 32%, #b07f4c 64%, #5c3d24 92%, #38230f 100%);
+      box-shadow:
+        inset -10px -12px 26px rgba(0,0,0,0.6),
+        inset 6px 6px 15px rgba(255,255,255,0.22),
+        0 0 34px rgba(220,180,120,0.12);
+      animation: orbFloat var(--odur, 40s) ease-in-out infinite;
+    }
+    .orb-lg { width: calc(var(--osize) * 1.05); height: calc(var(--osize) * 1.05); }
+    .orb::before, .orb-lg::before {
+      content: "";
+      position: absolute;
+      inset: -34% -62%;
+      border-radius: 50%;
+      border: 3px solid rgba(240,222,182,0.5);
+      border-top-color: rgba(240,222,182,0.10);
+      border-bottom-color: rgba(240,222,182,0.10);
+      transform: rotate(-22deg);
+      box-shadow: 0 0 12px rgba(240,222,182,0.18);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html" class="brand-link">TAKAMUL</a>
+    <nav class="nav">
+      <a href="index.html">About Us</a>
+      <a href="events.html">Events</a>
+      <a href="muathren.html">Muathren</a>
+    </nav>
+  </header>
+
+  <div class="bg-layer" id="bgLayer"></div>
+
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="brand">
+      <div class="brand-en">TAKAMUL</div>
+      <div class="brand-ar">تكامـل</div>
+    </div>
+    <p class="tagline">Integrated Marketing · PR · Products</p>
+    <p class="sub-tagline">Background style 1 — Ringed Giants</p>
+    <div class="scroll-hint"><span></span><div class="scroll-line"></div></div>
+  </section>
+
+  <main class="page">
+    <h1>About Us</h1>
+    <p class="subtitle">Local design preview — pick your favorite background.</p>
+    <div class="content">Ringed gas giants with warm banding and tilted rings.</div>
+  </main>
+
+  <nav class="style-switch">
+    <span class="label">Ringed Giants</span>
+    <a href="home-1.html" class="on">1</a>
+    <a href="home-2.html">2</a>
+    <a href="home-3.html">3</a>
+    <a href="home-4.html">4</a>
+    <a href="home-5.html">5</a>
+  </nav>
+
+  <script src="effects.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Style 4 — Cratered Moons</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Style 4 — cratered moons with a day/night terminator */
+    .orb, .orb-lg {
+      filter: none;
+      opacity: 0.94;
+      border: none;
+      background:
+        radial-gradient(circle at 62% 30%, rgba(0,0,0,0.34) 0 6%, transparent 7%),
+        radial-gradient(circle at 40% 62%, rgba(0,0,0,0.30) 0 9%, transparent 10%),
+        radial-gradient(circle at 73% 66%, rgba(0,0,0,0.26) 0 5%, transparent 6%),
+        radial-gradient(circle at 52% 46%, rgba(0,0,0,0.22) 0 4%, transparent 5%),
+        radial-gradient(circle at 30% 40%, rgba(255,255,255,0.16) 0 3%, transparent 4%),
+        radial-gradient(circle at 34% 30%, #d8d8dc 0%, #9c9ca2 46%, #55555b 78%, #2a2a2e 100%);
+      box-shadow:
+        inset -12px -10px 26px rgba(0,0,0,0.72),
+        inset 5px 5px 13px rgba(255,255,255,0.14),
+        0 0 20px rgba(200,200,210,0.06);
+      animation: orbFloat var(--odur, 40s) ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html" class="brand-link">TAKAMUL</a>
+    <nav class="nav">
+      <a href="index.html">About Us</a>
+      <a href="events.html">Events</a>
+      <a href="muathren.html">Muathren</a>
+    </nav>
+  </header>
+
+  <div class="bg-layer" id="bgLayer"></div>
+
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="brand">
+      <div class="brand-en">TAKAMUL</div>
+      <div class="brand-ar">تكامـل</div>
+    </div>
+    <p class="tagline">Integrated Marketing · PR · Products</p>
+    <p class="sub-tagline">Background style 4 — Cratered Moons</p>
+    <div class="scroll-hint"><span></span><div class="scroll-line"></div></div>
+  </section>
+
+  <main class="page">
+    <h1>About Us</h1>
+    <p class="subtitle">Local design preview — pick your favorite background.</p>
+    <div class="content">Realistic cratered moons with soft shadow terminators.</div>
+  </main>
+
+  <nav class="style-switch">
+    <span class="label">Cratered Moons</span>
+    <a href="home-1.html">1</a>
+    <a href="home-2.html">2</a>
+    <a href="home-3.html">3</a>
+    <a href="home-4.html" class="on">4</a>
+    <a href="home-5.html">5</a>
+  </nav>
+
+  <script src="effects.js"></script>
+</body>
+</html>

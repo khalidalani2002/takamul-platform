@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Style 2 — Neon Gas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Style 2 — neon glowing gas giants */
+    .orb {
+      filter: none;
+      opacity: 0.95;
+      background: radial-gradient(circle at 35% 32%, #c8f9ff 0%, #38d0ff 32%, #6a5cff 70%, #241a63 100%);
+      box-shadow:
+        0 0 22px 4px rgba(80,190,255,0.55),
+        0 0 60px 12px rgba(120,90,255,0.32),
+        inset -6px -8px 18px rgba(0,0,12,0.55);
+      animation: orbFloat var(--odur, 40s) ease-in-out infinite;
+    }
+    .orb-lg {
+      filter: none;
+      opacity: 0.9;
+      background: radial-gradient(circle at 38% 34%, #ffe0f6 0%, #ff5ccf 34%, #a13cff 72%, #2c1050 100%);
+      box-shadow:
+        0 0 30px 6px rgba(255,90,205,0.5),
+        0 0 80px 16px rgba(160,60,255,0.3),
+        inset -8px -10px 22px rgba(10,0,20,0.55);
+      animation: orbFloat var(--odur, 40s) ease-in-out infinite;
+    }
+    .orb::before, .orb-lg::before {
+      content: "";
+      position: absolute;
+      inset: -22%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(90,190,255,0.28), transparent 68%);
+      filter: blur(8px);
+      pointer-events: none;
+    }
+    .orb-lg::before { background: radial-gradient(circle, rgba(255,90,205,0.26), transparent 68%); }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html" class="brand-link">TAKAMUL</a>
+    <nav class="nav">
+      <a href="index.html">About Us</a>
+      <a href="events.html">Events</a>
+      <a href="muathren.html">Muathren</a>
+    </nav>
+  </header>
+
+  <div class="bg-layer" id="bgLayer"></div>
+
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="brand">
+      <div class="brand-en">TAKAMUL</div>
+      <div class="brand-ar">تكامـل</div>
+    </div>
+    <p class="tagline">Integrated Marketing · PR · Products</p>
+    <p class="sub-tagline">Background style 2 — Neon Gas</p>
+    <div class="scroll-hint"><span></span><div class="scroll-line"></div></div>
+  </section>
+
+  <main class="page">
+    <h1>About Us</h1>
+    <p class="subtitle">Local design preview — pick your favorite background.</p>
+    <div class="content">Vibrant neon gas giants with glowing atmospheres.</div>
+  </main>
+
+  <nav class="style-switch">
+    <span class="label">Neon Gas</span>
+    <a href="home-1.html">1</a>
+    <a href="home-2.html" class="on">2</a>
+    <a href="home-3.html">3</a>
+    <a href="home-4.html">4</a>
+    <a href="home-5.html">5</a>
+  </nav>
+
+  <script src="effects.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services — Style 1 (Glass cards)</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .s1-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 1040px; margin: 50px auto 0; }
+    @media (max-width: 760px) { .s1-grid { grid-template-columns: 1fr; } }
+    .s1-card { position: relative; padding: 28px 28px 30px; border-radius: 18px;
+      background: linear-gradient(180deg, rgba(30,30,32,0.55), rgba(10,10,12,0.8));
+      border: 1px solid var(--border); overflow: hidden; transition: transform .35s ease, box-shadow .35s ease; }
+    .s1-card::before { content: ""; position: absolute; inset: 0; border-radius: 18px; padding: 1px;
+      background: linear-gradient(160deg, rgba(255,255,255,.35), rgba(255,255,255,.02) 40%, rgba(255,255,255,.25));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude; opacity: .5; transition: opacity .35s; pointer-events: none; }
+    .s1-card:hover { transform: translateY(-6px); box-shadow: 0 30px 60px -25px rgba(0,0,0,.9); }
+    .s1-card:hover::before { opacity: 1; }
+    .s1-num { font-family: "Clash Display", sans-serif; font-size: 44px; font-weight: 700; color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,.28); line-height: 1; }
+    .s1-head { font-size: 1.4rem; font-weight: 800; color: #fff; margin: 10px 0 16px; }
+    .s1-list { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+    .s1-list li { position: relative; padding-right: 20px; color: var(--silver-1); line-height: 1.5; }
+    .s1-list li::before { content: "—"; position: absolute; right: 0; color: var(--silver-3); }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html" class="brand-link"><img src="images/logo.png" class="brand-logo" alt="Takamul" /></a>
+    <nav class="nav">
+      <a href="about.html" class="active">Services</a>
+      <a href="events.html">Events</a>
+      <a href="muathren.html">Influencers</a>
+    </nav>
+  </header>
+
+  <div class="bg-layer" id="bgLayer"></div>
+
+  <main class="page">
+    <h1 class="services-title silver-text">خدماتنا</h1>
+    <p class="services-sub">Our Services · Glass cards</p>
+
+    <div class="s1-grid">
+      <div class="s1-card"><div class="s1-num">01</div><h2 class="s1-head">الاستراتيجيات والتسويق</h2>
+        <ul class="s1-list"><li>دراسات السوق والتحليل العميق</li><li>بناء الاستراتيجيات التسويقية والعلامات التجارية</li><li>إدارة السمعة وإدارة الأزمات الإعلامية</li><li>الحملات الإعلانية التقليدية والرقمية</li></ul></div>
+      <div class="s1-card"><div class="s1-num">02</div><h2 class="s1-head">الحلول الرقمية والذكاء الاصطناعي</h2>
+        <ul class="s1-list"><li>تطوير مواقع وتطبيقات (iOS/Android)</li><li>نظم إدارة المحتوى</li><li>واجهة وتجربة المستخدم (UI/UX)</li><li>حلول الذكاء الاصطناعي في التحليلات</li></ul></div>
+      <div class="s1-card"><div class="s1-num">03</div><h2 class="s1-head">الهوية البصرية والتصميم</h2>
+        <ul class="s1-list"><li>إعادة بناء الهوية (Rebranding)</li><li>تصميم الأنظمة البصرية (شعارات، أدلة الاستخدام)</li><li>تصوير وإنتاج المواد الدعائية</li><li>التغليف والتصميم البيئي والإعلاني</li></ul></div>
+      <div class="s1-card"><div class="s1-num">04</div><h2 class="s1-head">المحتوى والإعلام والمؤثرين</h2>
+        <ul class="s1-list"><li>كتابة المحتوى الإعلاني والإبداعي</li><li>إنتاج الفيديو (إعلاني، وثائقي، قصير)</li><li>إدارة منصات التواصل الاجتماعي</li><li>التعاون مع المؤثرين وصناع المحتوى</li></ul></div>
+    </div>
+  </main>
+
+  <nav class="style-switch">
+    <span class="label">Glass cards</span>
+    <a href="services-1.html" class="on">1</a>
+    <a href="services-2.html">2</a>
+    <a href="services-3.html">3</a>
+    <a href="services-4.html">4</a>
+    <a href="services-5.html">5</a>
+  </nav>
+
+  <script src="effects.js"></script>
+</body>
+</html>

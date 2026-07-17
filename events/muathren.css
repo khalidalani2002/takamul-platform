@@ -1,0 +1,304 @@
+/* ============================================================
+   Muathren (influencer network) — page-specific styles only.
+   Shared theme, background, hero, and scroll effects live in styles.css.
+   ============================================================ */
+
+/* ---------- QUOTE ---------- */
+.quote-section {
+  padding: 8rem 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+.section-label {
+  font-size: 0.95rem;
+  color: var(--silver-3);
+  letter-spacing: 0.15em;
+  font-weight: 500;
+  margin-bottom: 2.5rem;
+  display: inline-block;
+}
+.section-label::before,
+.section-label::after {
+  content: "•";
+  margin: 0 0.8rem;
+  color: var(--silver-4);
+}
+
+.quote-wrap {
+  position: relative;
+  padding: 3rem 3rem;
+}
+.q-open, .q-close {
+  position: absolute;
+  font-family: Georgia, serif;
+  font-size: clamp(4rem, 10vw, 8rem);
+  line-height: 1;
+  background: linear-gradient(180deg, #f5f5f5 0%, #a0a0a4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+  font-weight: 700;
+}
+.q-open { top: -1rem; right: 0; }
+.q-close { bottom: -3rem; left: 0; }
+.quote-text {
+  font-size: clamp(1.3rem, 2.6vw, 2rem);
+  font-weight: 400;
+  color: #fff;
+  line-height: 2;
+}
+
+/* ---------- NETWORK ---------- */
+.network {
+  padding: 5rem 1.5rem 6rem;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+.section-header h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+  margin-top: 0.5rem;
+}
+.section-divider {
+  margin: 2rem auto 0;
+  width: 260px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--silver-1), transparent);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+  border-radius: 2px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.card {
+  position: relative;
+  display: block;
+  padding: 0 0 1.8rem;
+  background: linear-gradient(180deg, rgba(30, 30, 32, 0.55), rgba(10, 10, 12, 0.78));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  backdrop-filter: blur(6px);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+.card:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.6);
+  outline-offset: 3px;
+}
+
+.card-cta {
+  margin: 1.2rem auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+  color: var(--silver-1);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  direction: ltr;
+  width: fit-content;
+  max-width: 90%;
+  white-space: nowrap;
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+.card-cta svg { flex: 0 0 auto; }
+.card:hover .card-cta {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+  border-color: rgba(255, 255, 255, 0.55);
+  color: #fff;
+  box-shadow: 0 0 22px rgba(255, 255, 255, 0.15);
+}
+.card-body { padding: 1.4rem 1.3rem 0; }
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  padding: 1px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.02) 40%, rgba(255, 255, 255, 0.25) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.6;
+  transition: opacity 0.4s ease;
+}
+.card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.9), 0 0 40px rgba(255, 255, 255, 0.06);
+}
+.card:hover::before { opacity: 1; }
+
+.photo-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #0a0a0c;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.photo-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1.5px;
+  background: linear-gradient(160deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.05) 30%,
+    rgba(255, 255, 255, 0.02) 60%,
+    rgba(255, 255, 255, 0.45) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  z-index: 3;
+}
+.photo-frame::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 25%;
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0) 40%, rgba(0, 0, 0, 0.35));
+  pointer-events: none;
+  z-index: 2;
+}
+.photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  background: #ffffff;
+  transition: transform 0.7s ease;
+}
+.card:hover .photo-frame img { transform: scale(1.03); }
+
+.photo-shine {
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.13) 50%, transparent 60%);
+  transform: skewX(-18deg);
+  transition: left 0.9s ease;
+  pointer-events: none;
+  z-index: 4;
+}
+.card:hover .photo-shine { left: 120%; }
+
+.card-name {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.01em;
+  direction: ltr;
+}
+.card-followers {
+  text-align: center;
+  margin-top: 0.35rem;
+  font-size: 0.9rem;
+  color: var(--silver-2);
+  direction: ltr;
+  letter-spacing: 0.03em;
+}
+.card-followers .num {
+  font-weight: 700;
+  background: linear-gradient(180deg, #fff, #a8a8ac);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.divider-line {
+  margin: 1.1rem auto;
+  height: 1px;
+  width: 80%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+}
+
+.card-tag {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--silver-1);
+  direction: ltr;
+  opacity: 0.9;
+  min-height: 2.2em;
+}
+.card-desc {
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+  font-weight: 400;
+}
+
+/* ---------- CLOSING ---------- */
+.closing {
+  padding: 8rem 1.5rem 4rem;
+  text-align: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.silver-bar {
+  height: 2px;
+  width: min(80%, 700px);
+  margin: 0 auto 3rem;
+  background: linear-gradient(90deg, transparent, #fff, transparent);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.35);
+}
+.closing-line {
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.7;
+}
+.closing-sub {
+  margin-top: 1rem;
+  color: var(--silver-2);
+  font-size: 1.05rem;
+  font-weight: 300;
+}
+.closing .brand { margin-top: 3rem; }
+
+.moathren-footer {
+  padding: 2rem 1rem 3rem;
+  text-align: center;
+  color: var(--silver-3);
+  font-size: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 640px) {
+  .quote-section { padding: 5rem 1rem; }
+  .quote-wrap { padding: 2rem 1.5rem; }
+  .grid { gap: 1.2rem; }
+}

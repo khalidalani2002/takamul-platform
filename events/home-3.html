@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Style 3 — Wireframe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Style 3 — wireframe / blueprint planets with orbital rings */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .orb, .orb-lg {
+      filter: none;
+      opacity: 0.85;
+      background: radial-gradient(circle at 50% 50%, rgba(150,190,255,0.05), transparent 70%);
+      border: 1.5px solid rgba(190,215,255,0.55);
+      box-shadow: 0 0 14px rgba(150,190,255,0.28), inset 0 0 14px rgba(150,190,255,0.12);
+      animation: spin var(--odur, 40s) linear infinite;
+    }
+    .orb::before, .orb-lg::before {
+      content: "";
+      position: absolute;
+      inset: -30% -58%;
+      border-radius: 50%;
+      border: 1px solid rgba(185,212,255,0.42);
+      transform: rotate(-24deg);
+      pointer-events: none;
+    }
+    .orb::after, .orb-lg::after {
+      content: "";
+      position: absolute;
+      inset: -48% -74%;
+      border-radius: 50%;
+      border: 1px dashed rgba(185,212,255,0.22);
+      transform: rotate(-24deg);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html" class="brand-link">TAKAMUL</a>
+    <nav class="nav">
+      <a href="index.html">About Us</a>
+      <a href="events.html">Events</a>
+      <a href="muathren.html">Muathren</a>
+    </nav>
+  </header>
+
+  <div class="bg-layer" id="bgLayer"></div>
+
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="brand">
+      <div class="brand-en">TAKAMUL</div>
+      <div class="brand-ar">تكامـل</div>
+    </div>
+    <p class="tagline">Integrated Marketing · PR · Products</p>
+    <p class="sub-tagline">Background style 3 — Wireframe</p>
+    <div class="scroll-hint"><span></span><div class="scroll-line"></div></div>
+  </section>
+
+  <main class="page">
+    <h1>About Us</h1>
+    <p class="subtitle">Local design preview — pick your favorite background.</p>
+    <div class="content">Technical blueprint planets with rotating orbital rings.</div>
+  </main>
+
+  <nav class="style-switch">
+    <span class="label">Wireframe</span>
+    <a href="home-1.html">1</a>
+    <a href="home-2.html">2</a>
+    <a href="home-3.html" class="on">3</a>
+    <a href="home-4.html">4</a>
+    <a href="home-5.html">5</a>
+  </nav>
+
+  <script src="effects.js"></script>
+</body>
+</html>

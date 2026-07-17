@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Style 5 — Aurora Blobs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Style 5 — soft aurora gradient blobs */
+    .orb {
+      filter: blur(14px);
+      opacity: 0.5;
+      mix-blend-mode: screen;
+      background: radial-gradient(circle at 40% 40%, rgba(120,255,214,0.75), rgba(90,140,255,0.4) 46%, rgba(200,90,255,0.14) 76%, transparent 86%);
+      animation: orbFloat var(--odur, 40s) ease-in-out infinite;
+    }
+    .orb-lg {
+      filter: blur(42px);
+      opacity: 0.4;
+      mix-blend-mode: screen;
+      width: calc(var(--osize) * 1.4);
+      height: calc(var(--osize) * 1.4);
+      background: radial-gradient(circle at 45% 45%, rgba(255,120,205,0.55), rgba(120,90,255,0.32) 50%, transparent 82%);
+      animation: orbFloat var(--odur, 40s) ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html" class="brand-link">TAKAMUL</a>
+    <nav class="nav">
+      <a href="index.html">About Us</a>
+      <a href="events.html">Events</a>
+      <a href="muathren.html">Muathren</a>
+    </nav>
+  </header>
+
+  <div class="bg-layer" id="bgLayer"></div>
+
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="brand">
+      <div class="brand-en">TAKAMUL</div>
+      <div class="brand-ar">تكامـل</div>
+    </div>
+    <p class="tagline">Integrated Marketing · PR · Products</p>
+    <p class="sub-tagline">Background style 5 — Aurora Blobs</p>
+    <div class="scroll-hint"><span></span><div class="scroll-line"></div></div>
+  </section>
+
+  <main class="page">
+    <h1>About Us</h1>
+    <p class="subtitle">Local design preview — pick your favorite background.</p>
+    <div class="content">Soft, colorful aurora blobs drifting behind the stars.</div>
+  </main>
+
+  <nav class="style-switch">
+    <span class="label">Aurora Blobs</span>
+    <a href="home-1.html">1</a>
+    <a href="home-2.html">2</a>
+    <a href="home-3.html">3</a>
+    <a href="home-4.html">4</a>
+    <a href="home-5.html" class="on">5</a>
+  </nav>
+
+  <script src="effects.js"></script>
+</body>
+</html>

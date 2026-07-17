@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(where pdftotext *)",
+      "Bash(python -c \"import fitz; print\\(fitz.__version__\\)\")",
+      "Bash(pip install *)",
+      "Bash(python -c ' *)",
+      "Bash(python)",
+      "Bash(cd \"C:/Users/khm87/Desktop/moathren web/images\" && rm -f page*_full.png p9_*.png p10_*.png p11_*.png p12_*.png p13_full.png p13_a.png p13_b.png p13_c.png && mv p13_ali_qahtan.png ali_qahtan.png && mv p13_zainab.png zainab_hussain.png && mv p13_ahmed.png ahmed_salim.png && ls)",
+      "Bash(rm -f *.png *.jpg *.jpeg *.JPG)",
+      "Bash(cp \"C:/Users/khm87/Desktop/New folder \\(10\\)/Ahmed Salim.png\" ahmed_salim.png)",
+      "Bash(cp \"C:/Users/khm87/Desktop/New folder \\(10\\)/Ali Aspirin.JPG\" ali_aspirin.jpg)",
+      "Bash(cp \"C:/Users/khm87/Desktop/New folder \\(10\\)/Ali Pharmacy.png\" ali_pharmacy.png)",
+      "Bash(cp \"C:/Users/khm87/Desktop/New folder \\(10\\)/Hajer Sadiq.png\" hajer_sadiq.png)",
+      "Bash(where vercel *)",
+      "Bash(vercel --version)",
+      "Bash(vercel --prod --yes --name moathren)",
+      "Bash(vercel --prod --yes)"
+    ]
+  }
+}
